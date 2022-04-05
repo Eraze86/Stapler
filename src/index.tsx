@@ -3,9 +3,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Layout } from './components/Layout/layout';
+import { Home } from './components/Home/home';
+import { Booking } from './components/Booking/booking';
+import { Contact } from './components/Contact/contact';
+import { Admin } from './components/Admin/admin';
 
 ReactDOM.render(
   <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+      <Route path='/' element={<Layout/>}/>
+          <Route index element={<Home/>}/>
+          <Route path='/booking' element={<Booking/>}/>
+          <Route path='/contact' element={<Contact/>}/>
+          <Route path='/admin' element={<Admin/>}/>
+      </Routes>
+    </BrowserRouter>
     <App />
   </React.StrictMode>,
   document.getElementById('root')

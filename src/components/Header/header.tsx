@@ -1,3 +1,5 @@
 export function Header(){
-    return (<></>)
+    return (<header>
+        <nav></nav>
+    </header>)
 }
