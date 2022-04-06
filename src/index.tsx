@@ -10,6 +10,7 @@ import { Booking } from './components/Booking/booking';
 import { Contact } from './components/Contact/contact';
 import { Admin } from './components/Admin/admin';
 import App from './App';
+import { NoPage } from './components/Nopagefound/nopagefound';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,7 +20,8 @@ ReactDOM.render(
           <Route index element={<Home />} />
           <Route path="booking" element={<Booking />} />
           <Route path="contact" element={<Contact />} />
-          {/* <Route path="*" element={<NoPage />} /> */}
+          <Route path="admin" element={<Admin />} />
+          <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
