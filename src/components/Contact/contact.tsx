@@ -1,3 +1,3 @@
 export function Contact(){
-    return (<></>)
+    return (<>Contacts work!</>)
 }

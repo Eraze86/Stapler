@@ -1,3 +1,3 @@
 export function Admin(){
-    return (<></>)
+    return (<>Admin Works</>)
 }

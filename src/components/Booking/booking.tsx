@@ -1,3 +1,3 @@
 export function Booking(){
-    return (<></>)
+    return (<>Booking works!</>)
 }
