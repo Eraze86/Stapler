@@ -7,10 +7,6 @@ export function Booking(){
     function search(){
     console.log("nu söker vi")
     }
-    // useEffect(() =>{
-    //     axios.get<INewBooking>("https://school-restaurant-api.azurewebsites.net/")
-    //     .then((response)=>{console.log("lite data", response.data)})
-    // },[])
     
     return (<>
     <form>
