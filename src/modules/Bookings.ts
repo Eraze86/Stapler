@@ -1,4 +1,4 @@
-export class Booking {
+export class Bookings {
   constructor(
     public id: string,
     public restaurantId: string,
