@@ -37,7 +37,7 @@ export function Booking() {
             console.log(response.data);
             let bookings = response.data.map((booking: Bookings) => {
               return new Bookings(
-                booking.id,
+                booking._id,
                 booking.restaurantId,
                 booking.date,
                 booking.time,
