@@ -2,7 +2,7 @@ import contactImg from '../../img/contactPage.jpg'
 
 export function Contact(){
     return (<>
-        <img src={contactImg} />
+        <img src={contactImg} alt="chef chopping food" />
         <section>
             <div>
                 <h2>Öppettider</h2>
