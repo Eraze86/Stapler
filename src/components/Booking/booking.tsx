@@ -22,31 +22,34 @@ export function Booking() {
         let name: string = e.target.name
         console.log(e.target.value)
         setNewBooking({ ...newBooking, [name]: e.target.value })
-    }
-    //hämta bokingsinformation
-    //   useEffect(() => {
-    //     axios
-    //       .get<Bookings[]>(
-    //         "https://school-restaurant-api.azurewebsites.net/booking/restaurant/:id"
-    //       )
-    //       .then((response) => {
-    //         console.log(response.data);
-    //         let bookings = response.data.map((booking: Bookings) => {
-    //           return new Bookings(
-    //             booking.id,
-    //             booking.restaurantId,
-    //             booking.date,
-    //             booking.time,
-    //             booking.numberOfGuests,
-    //             booking.customerId
-    //           );
-    //         });
-    //       });
-    //   }, []);
-
+    }    
     function search() {
-        console.log("nu söker vi");
+        
     }
+
+    //hämta bokingsinformation
+      useEffect(() => {
+        axios
+          .get<Bookings[]>(
+            "https://school-restaurant-api.azurewebsites.net/booking/restaurant/:id"
+          )
+          .then((response) => {
+            console.log(response.data);
+            let bookings = response.data.map((booking: Bookings) => {
+              return new Bookings(
+                booking.id,
+                booking.restaurantId,
+                booking.date,
+                booking.time,
+                booking.numberOfGuests,
+                booking.customerId
+              );
+            });
+            setBooking(bookings)
+          });
+      }, []);
+
+
 
     return (
         <>
