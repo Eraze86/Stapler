@@ -20,6 +20,17 @@ export function Admin(){
             .catch(error => {console.log("ERROR:", error)})
     })
 
+    //Funktion för att radera/avboka en bokning, genom API delete och skickar med id på bokningen
+    function deleteBooking(id: string){
+        axios.delete<Bookings>('https://school-restaurant-api.azurewebsites.net/booking/delete/' + id)
+            .then(response => {
+                console.log(response.data);
+                //Laddar om sidan för att bokningen ska försvinna
+                window.location.reload();
+            })
+            .catch(error => {console.log(error);});
+    }
+
     //Skriver ut alla bokningar med map, skapar en avboka knapp samt ändra bokning knapp
     let lis = bookings
         .sort((a,b) => parseInt(a.date[2] + a.date[3] + a.date[5] + a.date[6] + a.date[8] + a.date[9]) - parseInt(b.date[2] + b.date[3] + b.date[5] + b.date[6] + b.date[8] + b.date[9]))
@@ -29,9 +40,10 @@ export function Admin(){
                 <p>Datum: {booking.date}</p>
                 <p>Tid: {booking.time}</p>
                 <p>Antal gäster: {booking.numberOfGuests}</p>
+                <button onClick={() => deleteBooking(booking._id)}>Avboka</button>
             </li>)
     });
-    
+
     return (<>
         <div>
             <h1>Bokningar</h1>
