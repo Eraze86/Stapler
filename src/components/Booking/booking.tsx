@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { ChangeEvent, useEffect, useState } from "react";
 import { Bookings } from "../../modules/Bookings";
 import { INewBooking } from "../../modules/INewBooking";
+import { GetBookingsService } from "../services/getBookings";
 
 export function Booking() {
     const [newBooking, setNewBooking] = useState<INewBooking>({
@@ -11,31 +12,13 @@ export function Booking() {
         numberOfGuests: 0,
         customer: { name: "", lastname: "", email: "", phone: "" },
     });
-    const [booking, setBooking] = useState<Bookings[]>([])
+    const [bookings, setBookings] = useState<Bookings[]>([])
 
-    function handleChange(e: ChangeEvent<HTMLInputElement>) {
-        let name = e.target.name
-        console.log(e.target.value)
-        setNewBooking({ ...newBooking, [name]: e.target.value })
-    }
-    function handleClick(e: any){
-        let name: string = e.target.name
-        console.log(e.target.value)
-        setNewBooking({ ...newBooking, [name]: e.target.value })
-    }    
-    function search() {
-        
-    }
-
-    //hämta bokingsinformation
-      useEffect(() => {
-        axios
-          .get<Bookings[]>(
-            "https://school-restaurant-api.azurewebsites.net/booking/restaurant/:id"
-          )
-          .then((response) => {
-            console.log(response.data);
-            let bookings = response.data.map((booking: Bookings) => {
+        //hämta befintlig bokingsinformation
+        useEffect(() => {
+          let service = new GetBookingsService();
+          service.getBookings().then((bookings) => {
+            let data = bookings.map((booking: Bookings) => {
               return new Bookings(
                 booking._id,
                 booking.restaurantId,
@@ -45,11 +28,42 @@ export function Booking() {
                 booking.customerId
               );
             });
-            setBooking(bookings)
-          });
-      }, []);
+            setBookings(data)
+          })  
+        }, []);
+   
+// hämtar kundens valda datum och tid och sparar om i newBooking
+    function handleChange(e: ChangeEvent<HTMLInputElement>) {
+        let name = e.target.name
+        console.log(e.target.value)
+        setNewBooking({ ...newBooking, [name]: e.target.value })
+        console.log("ny bookning",newBooking)
+    }
+    // hämtar kundens valda antal gäster och sparar om i newBooking
+    function handleClick(e: any){
+        let name: string = e.target.name
+        console.log(e.target.value)
+        setNewBooking({ ...newBooking, [name]: e.target.value })
+    }  
 
+    let booker: Bookings[] = [];
+    //vid sökning jämför kundens val med befintliga bookingar  
+    function search() {
 
+      for (let i = 0; i < bookings.length; i++) {
+        console.log(bookings[i])
+        //om datumet finns i bokning redan
+        if(newBooking.date === bookings[i].date){
+             //om tiden finns i bokning redan
+        if(newBooking.time === bookings[i].time){ 
+          booker.push(bookings[i])
+          console.log(bookings[i])
+     
+        }}
+
+      }
+        
+    }
 
     return (
         <>
@@ -79,6 +93,7 @@ export function Booking() {
 
                 <button onClick={search}>Sök</button>
             </form>
+            
         </>
     );
 }
