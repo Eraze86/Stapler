@@ -1,12 +1,12 @@
 import { Link, NavLink } from "react-router-dom";
-import { Logo } from "../Styled/Div";
+import { Logotype } from "../Styled/Logotype";
 
 import "./header.css";
 
 export function Header(){
     return (
     <header>
-        <Logo id="logotype"><Link className="logo" to="/">Stapler</Link></Logo>
+        <Logotype><Link className="logo" to="/">Stapler</Link></Logotype>
         <nav>
            <NavLink to="/" className={({isActive}) => (isActive ? "active" : "notActive")}>Hem</NavLink>
            <NavLink to="/booking" className={({isActive}) => (isActive ? "active" : "notActive")}>Boka</NavLink>
