@@ -6,10 +6,11 @@ import { Header } from "../Header/header";
 export function Layout(){
     return(<>
      <Header></Header>
-        
+
         <main>
-        <Outlet></Outlet>
+            <Outlet></Outlet>
         </main>
-       
+
+    <footer></footer>
     </>)
 }
