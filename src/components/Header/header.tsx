@@ -1,14 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+
+import "./header.css";
 
 export function Header(){
     return (
     <header>
+        <Link className="logo" to="/">Stapler</Link>
         <nav>
-           <Link to="/">Hem</Link> 
-           <Link to="/booking">booking</Link> 
-           <Link to="/contact">contact</Link> 
+           <NavLink to="/" className={({isActive}) => (isActive ? "active" : "notActive")}>Hem</NavLink> 
+           <NavLink to="/booking" className={({isActive}) => (isActive ? "active" : "notActive")}>Boka</NavLink> 
+           <NavLink to="/contact" className={({isActive}) => (isActive ? "active" : "notActive")}>Kontakt</NavLink> 
         </nav>
-    </header>
-
-    )
+    </header>)
 }
