@@ -1,4 +1,17 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
+import { INewBooking } from "../../modules/INewBooking"
+
 export function Booking(){
+    const [newBooking, setNewBooking] = useState<INewBooking>()
+    function search(){
+    console.log("nu söker vi")
+    }
+    // useEffect(() =>{
+    //     axios.get<INewBooking>("https://school-restaurant-api.azurewebsites.net/")
+    //     .then((response)=>{console.log("lite data", response.data)})
+    // },[])
+    
     return (<>
     <form>
         <label>Datum:</label><br/>
@@ -17,6 +30,6 @@ export function Booking(){
             <option value="guest5">5</option>
             <option value="guest6">6</option>
    		</select>
-           <button>Sök</button>
+           <button onClick={search}>Sök</button>
     </form></>)
 }
