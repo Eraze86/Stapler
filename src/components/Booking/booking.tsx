@@ -1,17 +1,25 @@
 
 import { ChangeEvent, useEffect, useState } from "react";
 import { Bookings } from "../../modules/Bookings";
-import { INewBooking } from "../../modules/INewBooking";
+import { INewBooking, INewCustomer } from "../../modules/INewBooking";
 import { GetBookingsService } from "../services/getBookings";
 
 export function Booking() {
+
+  const [customer, setCustomer] = useState<INewCustomer>({
+    name: "",
+    lastname: "",
+    email: "",
+    phone: ""
+});
     const [newBooking, setNewBooking] = useState<INewBooking>({
         restaurantId: "624e9b46796a187bc28ceaef",
         date: "",
         time: "",
         numberOfGuests: 0,
-        customer: { name: "", lastname: "", email: "", phone: "" },
+        customer: customer,
     });
+
     const [bookings, setBookings] = useState<Bookings[]>([])
 
         //hämta befintlig bokingsinformation
@@ -49,7 +57,7 @@ export function Booking() {
     let booker: Bookings[] = [];
     //vid sökning jämför kundens val med befintliga bookingar  
     function search() {
-
+      console.log("wiii")
       for (let i = 0; i < bookings.length; i++) {
         console.log(bookings[i])
         //om datumet finns i bokning redan
@@ -58,11 +66,14 @@ export function Booking() {
         if(newBooking.time === bookings[i].time){ 
           booker.push(bookings[i])
           console.log(bookings[i])
-     
-        }}
-
-      }
-        
+         } else{
+          console.log("funkade ej")
+          }
+          // if(bookings.length > 15){
+          // }else{
+          // }
+        }
+      }   
     }
 
     return (
@@ -93,7 +104,7 @@ export function Booking() {
 
                 <button onClick={search}>Sök</button>
             </form>
-            
+         <div>{booker}</div>
         </>
     );
 }
