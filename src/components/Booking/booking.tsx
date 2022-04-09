@@ -3,6 +3,10 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Bookings } from "../../modules/Bookings";
 import { INewBooking } from "../../modules/INewBooking";
 import { GetBookingsService } from "../services/getBookings";
+import { BookingSection } from "../Styled/Section";
+import bookingImg from "../../img/bookingPage.jpg";
+import { Form } from "../Styled/Form";
+import { H1Booking } from "../Styled/H1";
 
 export function Booking() {
     const [newBooking, setNewBooking] = useState<INewBooking>({
@@ -29,9 +33,9 @@ export function Booking() {
               );
             });
             setBookings(data)
-          })  
+          })
         }, []);
-   
+
 // hämtar kundens valda datum och tid och sparar om i newBooking
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
         let name = e.target.name
@@ -44,10 +48,10 @@ export function Booking() {
         let name: string = e.target.name
         console.log(e.target.value)
         setNewBooking({ ...newBooking, [name]: e.target.value })
-    }  
+    }
 
     let booker: Bookings[] = [];
-    //vid sökning jämför kundens val med befintliga bookingar  
+    //vid sökning jämför kundens val med befintliga bookingar
     function search() {
 
       for (let i = 0; i < bookings.length; i++) {
@@ -55,19 +59,23 @@ export function Booking() {
         //om datumet finns i bokning redan
         if(newBooking.date === bookings[i].date){
              //om tiden finns i bokning redan
-        if(newBooking.time === bookings[i].time){ 
+        if(newBooking.time === bookings[i].time){
           booker.push(bookings[i])
           console.log(bookings[i])
-     
+
         }}
 
       }
-        
+
     }
 
     return (
         <>
-            <form>
+          <H1Booking>Boka Bord</H1Booking>
+
+        <BookingSection>
+            <img src={bookingImg} />
+            <Form>
                 <label>Datum:</label>
                 <br />
                 <input type="date" name="date" onChange={handleChange}></input>
@@ -92,8 +100,8 @@ export function Booking() {
                 <input type="radio" value={6} name="numberOfGuest" onChange={handleChange}></input>
 
                 <button onClick={search}>Sök</button>
-            </form>
-            
+            </Form>
+            </BookingSection>
         </>
     );
 }
