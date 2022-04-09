@@ -1,0 +1,18 @@
+{
+  "appetizers": [
+    { "dish" : "Marinerade oliver & vitlöksbröd" },
+    { "dish" : "Buffelmozzarella med tomater & basilika" },
+    { "dish" : "Honungsmelon & parmaskinka" }
+  ],
+  "mainCourse": [
+    { "dish" : "Fisk- & skaldjurssoppa", "description" : "Soppa baserad på vitvin på dagens fångst med blåmusslor & rotfrukter, serveras med vitlöksbröd" },
+    { "dish" : "Blomkål", "description" : "Gratinerad blomkål med zucchini vitvinsvinäger, mandlar, syrlig smörsås & rostad jalapeño" },
+    { "dish" : "Hälleflundra", "description" : "Sotad hälleflundra med smörstekta gulbetor, gräslök- & granskottsemulsion, krispig svartkål med grönpeppar & flädervinäger" },
+    { "dish" : "Campanelle", "description" : "Campanelle, odlad svamp, svart vitlök, rotselleri, vedugnsrostad lök, ostronskivling" }
+  ],
+  "desserts": [
+    { "dish" : "Crème Brûlée" },
+    { "dish" : "Chokladfudge" },
+    { "dish" : "Mangosorbet" }
+  ]
+}
