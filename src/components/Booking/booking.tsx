@@ -43,7 +43,6 @@ export function Booking() {
             setBookings(data)
           })
         }, []);
-
 // hämtar kundens valda datum och tid och sparar om i newBooking
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
         let name = e.target.name
@@ -51,6 +50,13 @@ export function Booking() {
         setNewBooking({ ...newBooking, [name]: e.target.value })
         console.log("ny bookning",newBooking)
     }
+    function handlecostumer(e: ChangeEvent<HTMLInputElement>) {
+      let name = e.target.name
+      console.log(e.target.value)
+      setCustomer({ ...customer, [name]: e.target.value })
+      console.log("Ny kund",customer)
+  }
+    
     // hämtar kundens valda antal gäster och sparar om i newBooking
     function handleClick(e: any){
         let name: string = e.target.name
@@ -60,7 +66,10 @@ export function Booking() {
 
     let booker: Bookings[] = [];
     //vid sökning jämför kundens val med befintliga bookingar
+ const [ searchBtnClicked, setSearchBtnClicked ] = useState(false);
+
     function search() {
+      setSearchBtnClicked(true)
       console.log("wiii")
       for (let i = 0; i < bookings.length; i++) {
         console.log(bookings[i])
@@ -74,6 +83,11 @@ export function Booking() {
        }
     }
 
+    function reserve(){
+
+
+
+    }
     return (
         <>
           <H1Booking>Boka Bord</H1Booking>
@@ -104,10 +118,18 @@ export function Booking() {
                 <label>6</label>
                 <input type="radio" value={6} name="numberOfGuest" onChange={handleChange}></input>
 
-                <button onClick={search}>Sök</button>
+                
             </Form>
+            <button onClick={search}>Sök</button>
             </BookingSection>
-         <div>{booker}</div>
+            {searchBtnClicked && <div>hej hopp{booker}</div>}
+            {searchBtnClicked && <form>
+              <input type="text" name="name" value="Firstname" onChange={handlecostumer}></input>
+              <input type="text" name="lastname" value="Lastname" onChange={handlecostumer}></input>
+              <input type="text" name="e-mail" value="E-mail" onChange={handlecostumer}></input>
+              <input type="text" name="phone" value="Phone" onChange={handlecostumer}></input>
+              </form>}
+              <button onClick={reserve}>Reservera</button>
         </>
     );
 }
