@@ -70,6 +70,8 @@ export function Booking() {
         if(newBooking.time === bookings[i].time){
           booker.push(bookings[i])
           console.log(bookings[i])
+        }
+        }
     }
 
     return (
