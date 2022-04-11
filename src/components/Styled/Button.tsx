@@ -18,3 +18,11 @@ export const Button = styled(Link) `
     color:#1F2D32;
   }
 `
+
+export const SmallBookBtn = styled(Button)`
+  font-size: 1rem;
+  border:2px solid #FECB4B;
+  padding:0.4rem;
+  width: 60%;
+  align-self: center;
+`
