@@ -3,8 +3,8 @@ import { Button } from "../Styled/Button"
 
 export const BookBtn = () => {
   return(
-    <Link to="/booking">
-      <Button>Boka bord</Button>
-    </Link>
+    <Button to="/booking">
+      Boka bord
+    </Button>
   )
 }

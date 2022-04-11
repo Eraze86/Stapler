@@ -1,4 +1,6 @@
 import foodMenu from '../../assets/foodMenu.json';
+import { P } from '../Styled/P';
+import { Ul } from '../Styled/Ul';
 
 export const FoodMenu = () => {
   const appetizers = foodMenu.appetizers;
@@ -26,19 +28,19 @@ export const FoodMenu = () => {
   });
 
   return(
-  <ul>
-    <li>
-      <h3>Smårätter</h3>
-      <ul>{appetizer}</ul>
-    </li>
-    <li>
-      <h3>Varmrätter</h3>
-      <ul>{mainCourse}</ul>
-    </li>
-    <li>
-      <h3>Efterrätter</h3>
-      <ul>{dessert}</ul>
-    </li>
-  </ul>
+    <section>
+      <div>
+        <h3>Smårätter</h3>
+        <Ul>{appetizer}</Ul>
+      </div>
+      <div>
+        <h3>Varmrätter</h3>
+        <Ul>{mainCourse}</Ul>
+      </div>
+      <div>
+        <h3>Efterrätter</h3>
+        <Ul>{dessert}</Ul>
+      </div>
+    </section>
   )
 }

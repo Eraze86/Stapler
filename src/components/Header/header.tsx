@@ -1,16 +1,15 @@
 import { Link, NavLink } from "react-router-dom";
 import { Logotype } from "../Styled/Logotype";
-
-import "./header.css";
+import { StyledHeader } from "../Styled/Header";
 
 export function Header(){
     return (
-    <header>
-        <Logotype><Link className="logo" to="/">Stapler</Link></Logotype>
+    <StyledHeader>
+        <Logotype><Link to="/">Stapler</Link></Logotype>
         <nav>
-           <NavLink to="/" className={({isActive}) => (isActive ? "active" : "notActive")}>Hem</NavLink>
-           <NavLink to="/booking" className={({isActive}) => (isActive ? "active" : "notActive")}>Boka</NavLink>
-           <NavLink to="/contact" className={({isActive}) => (isActive ? "active" : "notActive")}>Kontakt</NavLink>
+           <NavLink to="/">Hem</NavLink>
+           <NavLink to="/booking">Boka</NavLink>
+           <NavLink to="/contact">Kontakt</NavLink>
         </nav>
-    </header>)
+    </StyledHeader>)
 }
