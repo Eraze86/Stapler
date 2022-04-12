@@ -92,23 +92,25 @@ export function Booking() {
        }
     }
   }
-    function reserve(){
-   
 
-      axios.post<INewCustomer>("https://school-restaurant-api.azurewebsites.net/api-doc/customer/create", {customer})
-      .then((response) => {
-        console.log("gäst" , response.data)})
-        .catch(error => {console.log(error);})
-      
-      }
 
       function newCostumer(){
-        setNewBooking({...newBooking, customer: customer});
-        axios.post<INewBooking>("https://school-restaurant-api.azurewebsites.net/api-doc/booking/create", {newBooking})
+        setNewBooking({...newBooking, customer: customer}); 
+        axios.post<INewCustomer>("https://school-restaurant-api.azurewebsites.net/api-doc/customer/create", {customer})
         .then((response) => {
-          console.log("datum" ,response.data)})
+          // console.log("gäst" , response.data)
+        })
+          .catch(error => {console.log(error);})
+          
       reserve()
       } 
+      async function reserve(){
+        console.log(newBooking)
+        await axios.post<INewBooking>("https://school-restaurant-api.azurewebsites.net/api-doc/booking/create", {newBooking})
+        .then((response) => {
+          // console.log("datum" ,response.data)
+        })
+        }
 
     return (
 
