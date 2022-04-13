@@ -1,32 +1,33 @@
 import { Link } from "react-router-dom"
-import { SmallBookBtn } from "../Styled/Button"
+import { LinkAdmin, LinkSmallBookBtn } from "../Styled/Link"
 import { StyledFooter } from "../Styled/Footer"
-import { P } from "../Styled/P"
+import { H2 } from "../Styled/Headings"
+import { PCenter } from "../Styled/P"
 
 export const Footer = () => {
   return (
     <StyledFooter>
       <div>
-        <h4>Adress</h4>
-        <P>Drottningvägen 12<br/>
+        <H2>Adress</H2>
+        <PCenter>Drottningvägen 12<br/>
           123 45 Stockholm
-        </P>
+        </PCenter>
       </div>
       <div>
-        <h4>Öppettider</h4>
-        <P>Måndag - Söndag<br/>
+        <H2>Öppettider</H2>
+        <PCenter>Måndag - Söndag<br/>
           18 - 23
-        </P>
-        <SmallBookBtn to="/booking">Boka bord</SmallBookBtn>
+        </PCenter>
+        <LinkSmallBookBtn to="/booking">Boka bord</LinkSmallBookBtn>
       </div>
 
       <div>
-        <h4>Kontakt</h4>
-        <P>
+        <H2>Kontakt</H2>
+        <PCenter>
           info@stapler.com<br/>
           070 - 111 22 33
-        </P>
-        <Link to="/admin" className="adminLink">Admin</Link>
+        </PCenter>
+        <LinkAdmin to="/admin" className="adminLink">Admin</LinkAdmin>
       </div>
     </StyledFooter>
   )

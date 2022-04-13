@@ -6,7 +6,7 @@ import { GetBookingsService } from "../services/getBookings";
 import { BookingSection } from "../Styled/Section";
 import bookingImg from "../../img/bookingPage.jpg";
 import { Form } from "../Styled/Form";
-import { H1Booking } from "../Styled/H1";
+import { H1Booking } from "../Styled/Headings";
 
 export function Booking() {
 
@@ -56,7 +56,7 @@ export function Booking() {
       setCustomer({ ...customer, [name]: e.target.value })
       console.log("Ny kund",customer)
   }
-    
+
     // hämtar kundens valda antal gäster och sparar om i newBooking
     function handleClick(e: any){
         let name: string = e.target.name
@@ -118,7 +118,7 @@ export function Booking() {
                 <label>6</label>
                 <input type="radio" value={6} name="numberOfGuest" onChange={handleChange}></input>
 
-                
+
             </Form>
             <button onClick={search}>Sök</button>
             </BookingSection>

@@ -1,6 +1,7 @@
 import foodMenu from '../../assets/foodMenu.json';
+import { H3, H4 } from '../Styled/Headings';
 import { P } from '../Styled/P';
-import { Ul } from '../Styled/Ul';
+import { Li, Ul } from '../Styled/Ul';
 
 export const FoodMenu = () => {
   const appetizers = foodMenu.appetizers;
@@ -9,38 +10,43 @@ export const FoodMenu = () => {
 
   let appetizer = appetizers.map((appet) => {
     return(
-      <li key={appet.id}>{appet.dish}</li>
+      <Li key={appet.id}>
+        <H4>{appet.dish}</H4>
+      </Li>
     )
   });
 
   let mainCourse = mainCourses.map((main) => {
     return(
-      <li key={main.id}>{main.dish}
-        <p>{main.description}</p>
-      </li>
+      <Li key={main.id}>
+        <H4>{main.dish}</H4>
+        <P>{main.description}</P>
+      </Li>
     )
   });
 
   let dessert = desserts.map((des) => {
     return(
-      <li key={des.id}>{des.dish}</li>
+      <Li key={des.id}>
+        <H4>{des.dish}</H4>
+      </Li>
     )
   });
 
   return(
-    <section>
+    <>
       <div>
-        <h3>Smårätter</h3>
+        <H3>Smårätter</H3>
         <Ul>{appetizer}</Ul>
       </div>
       <div>
-        <h3>Varmrätter</h3>
+        <H3>Varmrätter</H3>
         <Ul>{mainCourse}</Ul>
       </div>
       <div>
-        <h3>Efterrätter</h3>
+        <H3>Efterrätter</H3>
         <Ul>{dessert}</Ul>
       </div>
-    </section>
+    </>
   )
 }

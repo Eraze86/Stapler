@@ -1,41 +1,35 @@
 import styled from "styled-components";
 
 export const Section = styled.section`
-  @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
   background-color: #FBEDD4;
-  color:#1F2D32;
-  display:flex;
+  color: #1F2D32;
+  display: flex;
   justify-content: space-around;
-  flex-wrap:wrap;
-  margin:0 7rem 3rem;
-  box-sizing:border-box;
-  text-align:center;
-  position:relative;
-  padding:2rem;
-  top:-7rem;
-  z-index:2;
+  flex-wrap: wrap;
+  margin: 0 7rem 3rem;
+  padding: 3rem;
+  box-sizing: border-box;
+  text-align: center;
+  position: relative;
+  top: -7rem;
+  z-index: 2;
 
-  #menuSection{
-    width:55%;
-
-    div{
-      text-align:left;
-    }
-  }
-
-  .contactInfo{
-    width:33%;
-    margin-bottom: 3rem;
+  section{
+    width:65%;
+    text-align: left;
+    padding-left: 3rem;
+    padding-right: 1.5rem;
+    box-sizing: border-box;
   }
 `
 
 export const BookingSection = styled(Section)`
-  margin-top:5rem;
-  padding:0;
-  box-sizing:border-box;
-  top:0;
+  margin-top: 5rem;
+  padding: 0;
+  box-sizing: border-box;
+  top: 0;
 
   img{
-    max-width:50%;
+    max-width: 50%;
   }
 `
