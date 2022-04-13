@@ -9,13 +9,13 @@ export const FoodMenu = () => {
 
   let appetizer = appetizers.map((appet) => {
     return(
-      <li>{appet.dish}</li>
+      <li key={appet.id}>{appet.dish}</li>
     )
   });
 
   let mainCourse = mainCourses.map((main) => {
     return(
-      <li>{main.dish}
+      <li key={main.id}>{main.dish}
         <p>{main.description}</p>
       </li>
     )
@@ -23,7 +23,7 @@ export const FoodMenu = () => {
 
   let dessert = desserts.map((des) => {
     return(
-      <li>{des.dish}</li>
+      <li key={des.id}>{des.dish}</li>
     )
   });
 

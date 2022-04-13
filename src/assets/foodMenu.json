@@ -1,18 +1,18 @@
 {
   "appetizers": [
-    { "dish" : "Marinerade oliver & vitlöksbröd" },
-    { "dish" : "Buffelmozzarella med tomater & basilika" },
-    { "dish" : "Honungsmelon & parmaskinka" }
+    { "id" : "a-1", "dish" : "Marinerade oliver & vitlöksbröd" },
+    { "id" : "a-2", "dish" : "Buffelmozzarella med tomater & basilika" },
+    { "id" : "a-3", "dish" : "Honungsmelon & parmaskinka" }
   ],
   "mainCourse": [
-    { "dish" : "Fisk- & skaldjurssoppa", "description" : "Soppa baserad på vitvin på dagens fångst med blåmusslor & rotfrukter, serveras med vitlöksbröd" },
-    { "dish" : "Blomkål", "description" : "Gratinerad blomkål med zucchini vitvinsvinäger, mandlar, syrlig smörsås & rostad jalapeño" },
-    { "dish" : "Hälleflundra", "description" : "Sotad hälleflundra med smörstekta gulbetor, gräslök- & granskottsemulsion, krispig svartkål med grönpeppar & flädervinäger" },
-    { "dish" : "Campanelle", "description" : "Campanelle, odlad svamp, svart vitlök, rotselleri, vedugnsrostad lök, ostronskivling" }
+    { "id" : "m-1", "dish" : "Fisk- & skaldjurssoppa", "description" : "Soppa baserad på vitvin på dagens fångst med blåmusslor & rotfrukter, serveras med vitlöksbröd" },
+    { "id" : "m-2", "dish" : "Blomkål", "description" : "Gratinerad blomkål med zucchini vitvinsvinäger, mandlar, syrlig smörsås & rostad jalapeño" },
+    { "id" : "m-3", "dish" : "Hälleflundra", "description" : "Sotad hälleflundra med smörstekta gulbetor, gräslök- & granskottsemulsion, krispig svartkål med grönpeppar & flädervinäger" },
+    { "id" : "m-4", "dish" : "Campanelle", "description" : "Campanelle, odlad svamp, svart vitlök, rotselleri, vedugnsrostad lök, ostronskivling" }
   ],
   "desserts": [
-    { "dish" : "Crème Brûlée" },
-    { "dish" : "Chokladfudge" },
-    { "dish" : "Mangosorbet" }
+    { "id" : "d-1", "dish" : "Crème Brûlée" },
+    { "id" : "d-2", "dish" : "Chokladfudge" },
+    { "id" : "d-3", "dish" : "Mangosorbet" }
   ]
 }
