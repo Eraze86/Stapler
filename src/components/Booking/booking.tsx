@@ -1,4 +1,3 @@
-
 import { ChangeEvent, useEffect, useState } from "react";
 import { Bookings } from "../../modules/Bookings";
 import { INewBooking, INewCustomer } from "../../modules/INewBooking";
@@ -17,18 +16,21 @@ export function Booking() {
     email: "",
     phone: ""
   });
+
   const [newBooking, setNewBooking] = useState<INewBooking>({
     restaurantId: "624e9b46796a187bc28ceaef",
     date: "",
     time: "",
     numberOfGuests: 0,
-    customer: customer,
+    customer: customer,    
+      
   });
-
+ 
   const [bookings, setBookings] = useState<Bookings[]>([])
-  //när sökknappen trycks så visas formulär med namn osv.
   const [searchBtnClicked, setSearchBtnClicked] = useState(false);
-
+  const [searchTimeClicked, setSearchTimeClicked] = useState(false);
+  const [bookingSite, setBookingSite] = useState(false);
+  
   //hämta befintlig bokingsinformation
   useEffect(() => {
     let service = new GetBookingsService();
@@ -45,9 +47,9 @@ export function Booking() {
         );
       });
       setBookings(data)
+      setBookingSite(true)
     })
   }, []);
-
 
   // hämtar kundens valda datum och tid och sparar om i newBooking
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -56,6 +58,12 @@ export function Booking() {
     setNewBooking({ ...newBooking, [name]: e.target.value })
     console.log("ny bookning", newBooking)
   }
+   // hämtar kundens valda antal gäster och sparar om i newBooking
+   function handleClick(e: any) {
+    let name: string = e.target.name
+    console.log(e.target.value)
+    setNewBooking({ ...newBooking, [name]: e.target.value })
+  }
    // hämtar kundens information och spara i costumer
   function handlecostumer(e: ChangeEvent<HTMLInputElement>) {
     let name = e.target.name
@@ -63,62 +71,57 @@ export function Booking() {
     setCustomer({ ...customer, [name]: e.target.value })
     console.log("Ny kund", customer)
   }
-
-  // hämtar kundens valda antal gäster och sparar om i newBooking
-  function handleClick(e: any) {
-    let name: string = e.target.name
-    console.log(e.target.value)
-    setNewBooking({ ...newBooking, [name]: e.target.value })
-  }
-
-  let booker: Bookings[] = [];
-
+let booker: Bookings []= []
   //vid sökning jämför kundens val med befintliga bookingar
-  function search() {
-    if (bookings.length === 0) {
-      console.log("det finns lediga bord")
-      setSearchBtnClicked(true)
-    } else {
+  function searchBtn() {
+    setBookingSite(false)
+    setSearchBtnClicked(true)
+
       for (let i = 0; i < bookings.length; i++) {
         //om datumet finns i bokning redan
         if (newBooking.date === bookings[i].date) {
+          console.log("finns inte ledig tid")
           //om tiden finns i bokning redan
-          if (newBooking.time === bookings[i].time) {
-            setSearchBtnClicked(false)
-            console.log("det finns ingen tid")
-          } else {
-            booker.push(bookings[i])
-            console.log("det finns tid ")
-          }
+        }else if(bookings.length === 0){
+          // booker.push(bookings.)
+          console.log("finns tid")
         }
+        //   if (newBooking.time === bookings[i].time) {
+           
+        //     console.log("det finns ingen tid")
+        //   } else {
+            
+        //     setSearchBtnClicked(true)
+        //     console.log("det finns tid ")
+        //   }
+        // }
       }
-    }
   }
+ 
+function searchTime(){
+  setSearchBtnClicked(false)
+  setSearchTimeClicked(true)
+}
+function cancel(){
+  setBookingSite(true)
+  setSearchBtnClicked(false)
+  setSearchTimeClicked(false)
+}
 
-//skickar infon till apiet, för in customer till newBooking
-  function newCostumer() {
-    
-    axios.post<INewCustomer>("https://school-restaurant-api.azurewebsites.net/api-doc/customer/create", { customer })
+   async function reserve() {
+    setNewBooking({ ...newBooking, customer: customer });
+    console.log(newBooking)
+    await axios.post<INewCustomer>("https://school-restaurant-api.azurewebsites.net/api-doc/customer/create", { customer })
       .then((response) => {
         // console.log("gäst" , response.data)
       })
       .catch(error => { console.log(error); })
-      saveCostumer()
-      
-  }
-  function saveCostumer(){
-    setNewBooking({ ...newBooking, customer: customer });
-    reserve()
-  }
-
-//syncar så att informationen från costumer hinner komma in i new booking innan den posar till apiet
-   function reserve() {
-    console.log(newBooking)
-     axios.post<INewBooking>("https://school-restaurant-api.azurewebsites.net/api-doc/booking/create", { newBooking })
+    await axios.post<INewBooking>("https://school-restaurant-api.azurewebsites.net/api-doc/booking/create", { newBooking })
       .then((response) => {
         // console.log("datum" ,response.data)
       })
       .catch(error => { console.log(error); })
+      
   }
 
   return (
@@ -127,14 +130,10 @@ export function Booking() {
 
       <BookingSection>
         <img src={bookingImg} />
-        <Form>
+        {bookingSite && <><Form>
           <label>Datum:</label>
           <br />
           <input type="date" name="date" onChange={handleChange}></input>
-          <br />
-          <label>Tid:</label>
-          <input type="button" value="18:00" name="time" onClick={handleClick}></input>
-          <input type="button" value="21:00" name="time" onClick={handleClick}></input>
           <br />
 
           Antal:
@@ -153,13 +152,24 @@ export function Booking() {
 
 
         </Form>
-        <button onClick={search}>Sök</button>
-      </BookingSection>
+        <button onClick={searchBtn}>Sök</button></>}
+    
+        
 
-      {searchBtnClicked && <div>
-        Det finns ledigt bord den {newBooking.date} kl: {newBooking.time}
+      {searchBtnClicked && <>
         <Form>
-          <label>Förnamn</label>
+        <label>Tid:</label>
+          <input type="button" value="18:00" name="time" onClick={handleClick}></input>
+          <input type="button" value="21:00" name="time" onClick={handleClick}></input>
+          <br />
+        </Form>
+        <button onClick={searchTime}>Sök ledig tid</button>
+        <button onClick={cancel}>Avbryt</button>
+        </>}
+
+        {searchTimeClicked && <>
+          <Form>
+          <label>Förnamn</label><br></br>
           <input type="text" name="name" value={customer.name} onChange={handlecostumer}></input>
           <label>Efternamn</label>
           <input type="text" name="lastname" value={customer.lastname} onChange={handlecostumer}></input>
@@ -168,11 +178,13 @@ export function Booking() {
           <label>Telefonnr:</label>
           <input type="text" name="phone" value={customer.phone} onChange={handlecostumer}></input>
         </Form>
-        <button onClick={newCostumer}>Reservera</button>
-        <button onClick={window.location.reload}>Avbryt</button>
+        <button onClick={reserve}>Reservera</button>
+        <button onClick={cancel}>Avbryt</button>
 
-      </div>}
-
+          </>}
+        
+      
+          </BookingSection>
     </>
   );
 }
