@@ -18,7 +18,7 @@ export function Admin(){
                 setBookings(dataFromApi);
             })
             .catch(error => {console.log("ERROR:", error)})
-    })
+    },[])
 
     //Funktion för att radera/avboka en bokning, genom API delete och skickar med id på bokningen
     function deleteBooking(id: string){
