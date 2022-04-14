@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom"
-import { Button } from "../Styled/Button"
+import { LinkBookBtn } from "../Styled/Link"
 
 export const BookBtn = () => {
   return(
-    <Button to="/booking">
+    <LinkBookBtn to="/booking">
       Boka bord
-    </Button>
+    </LinkBookBtn>
   )
 }

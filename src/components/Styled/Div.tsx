@@ -5,16 +5,14 @@ export const Div = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  position: relative;
-  width:100vw;
+  width: 100vw;
+`
+export const DivHome = styled(Div)`
+  width: 35%;
+  justify-content: start;
+`
 
-  a{
-    bottom:13rem;
-    position:absolute;
-    z-index:6;
-  }
-
-  img{
-    max-width:100vw;
-  }
+export const DivContact = styled.div`
+  width:33%;
+  margin-bottom: 1rem;
 `

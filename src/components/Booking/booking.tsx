@@ -5,8 +5,10 @@ import { GetBookingsService } from "../services/getBookings";
 import { BookingSection } from "../Styled/Section";
 import bookingImg from "../../img/bookingPage.jpg";
 import { Form } from "../Styled/Form";
-import { H1Booking } from "../Styled/H1";
+
+import { H1Booking } from "../Styled/Headings";
 import axios from "axios";
+
 
 export function Booking() {
 
@@ -182,7 +184,6 @@ function cancel(){
         <button onClick={cancel}>Avbryt</button>
 
           </>}
-        
       
           </BookingSection>
     </>
