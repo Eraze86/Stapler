@@ -29,10 +29,12 @@ export function Booking() {
   });
  
   const [bookings, setBookings] = useState<Bookings[]>([])
-  const [searchBtnClicked, setSearchBtnClicked] = useState(false);
+ 
   const [searchTimeClicked, setSearchTimeClicked] = useState(false);
   const [bookingSite, setBookingSite] = useState(false);
-  
+  const [bookingConfirmed, setBookingConfirmed] = useState(false);
+  const [gprdCheckBox, setGprdCheckBox] = useState(false);
+ 
   //hämta befintlig bokingsinformation
   useEffect(() => {
     let service = new GetBookingsService();
@@ -58,67 +60,103 @@ export function Booking() {
     let name = e.target.name
     console.log(e.target.value)
     setNewBooking({ ...newBooking, [name]: e.target.value })
-    console.log("ny bookning", newBooking)
   }
-   // hämtar kundens valda antal gäster och sparar om i newBooking
+   //hämtar tiden och lägger in i newBookings
+   const [searchBtnClicked, setSearchBtnClicked] = useState(false);
    function handleClick(e: any) {
     let name: string = e.target.name
     console.log(e.target.value)
     setNewBooking({ ...newBooking, [name]: e.target.value })
+    setSearchTimeClicked(true)
+    setSearchBtnClicked(false);
   }
    // hämtar kundens information och spara i costumer
   function handlecostumer(e: ChangeEvent<HTMLInputElement>) {
     let name = e.target.name
     console.log(e.target.value)
     setCustomer({ ...customer, [name]: e.target.value })
-    console.log("Ny kund", customer)
   }
-let booker: Bookings []= []
-  //vid sökning jämför kundens val med befintliga bookingar
+ 
   function searchBtn() {
     setBookingSite(false)
     setSearchBtnClicked(true)
+    dinnerEarly()
+    dinnerLate()
+  }
 
+  let earlyDinner: Bookings[] = [];
+  let lateDinner: Bookings[] = [];
+  const [ eatEarly, setEatEarly ] = useState(false);
+  function dinnerEarly(){
+      //Går igenom alla bokningar för restaurangen
       for (let i = 0; i < bookings.length; i++) {
-        //om datumet finns i bokning redan
-        if (newBooking.date === bookings[i].date) {
-          console.log("finns inte ledig tid")
-          //om tiden finns i bokning redan
-        }else if(bookings.length === 0){
-          // booker.push(bookings.)
-          console.log("finns tid")
-        }
-        //   if (newBooking.time === bookings[i].time) {
-           
-        //     console.log("det finns ingen tid")
-        //   } else {
-            
-        //     setSearchBtnClicked(true)
-        //     console.log("det finns tid ")
-        //   }
-        // }
+          //Kollar om användarens datum matchar med någon/några av restaurangens bokningar
+          if(newBooking.date === bookings[i].date){
+              //Kollar hur många av dessa datum som har tiden 18:00
+              if(bookings[i].time === "18:00"){
+                  //Lägger in dessa bokningar i en ny array
+                  earlyDinner.push(bookings[i]);
+                  //Om arrayen är mindre än 15 betyder det att det finns minst 1 bord ledigt den tiden
+                  if(earlyDinner.length < 15) {
+                      console.log("DET FINNS BORD KL 18");
+                      setEatEarly(true);
+                  } else {
+                      console.log("DET FINNS INTE BORD KL 18");
+                      setEatEarly(false);
+                      return;
+                  }
+              } 
+          } else if(bookings[i].time === "18:00") {
+              setEatEarly(true);
+              console.log("FINNS 18");
+          }
       }
   }
- 
-function searchTime(){
-  setSearchBtnClicked(false)
-  setSearchTimeClicked(true)
-}
+
+const [ eatLate, setEatLate ] = useState(false);
+    function dinnerLate(){
+        for (let i = 0; i < bookings.length; i++) {
+            if(newBooking.date === bookings[i].date){
+                if(bookings[i].time === "21:00"){
+                    lateDinner.push(bookings[i]);
+                    if(lateDinner.length < 15) {
+                        console.log("DET FINNS BORD KL 21");
+                        setEatLate(true);
+                    } else {
+                        console.log("DET FINNS INTE BORD KL 21");
+                        setEatLate(false);
+                        return;
+                    }
+                } 
+            } else if(bookings[i].time === "21:00") {
+                setEatLate(true);
+                console.log("FINNS 21");
+            }
+        }
+    }
 function cancel(){
   setBookingSite(true)
   setSearchBtnClicked(false)
-  setSearchTimeClicked(false)
+  setSearchTimeClicked(true)
 }
 
-   async function reserve() {
+   function checkGprd() {
     setNewBooking({ ...newBooking, customer: customer });
-    console.log(newBooking)
-    await axios.post<INewCustomer>("https://school-restaurant-api.azurewebsites.net/api-doc/customer/create", { customer })
+    setSearchTimeClicked(false)
+    setGprdCheckBox(true)
+    console.log(bookings)
+    
+   }
+    
+    function reserve(){
+      setGprdCheckBox(false)
+      setBookingConfirmed(true)
+    axios.post<INewCustomer>("https://school-restaurant-api.azurewebsites.net/api-doc/customer/create", { customer })
       .then((response) => {
         // console.log("gäst" , response.data)
       })
       .catch(error => { console.log(error); })
-    await axios.post<INewBooking>("https://school-restaurant-api.azurewebsites.net/api-doc/booking/create", { newBooking })
+   axios.post<INewBooking>("https://school-restaurant-api.azurewebsites.net/api-doc/booking/create", { newBooking })
       .then((response) => {
         // console.log("datum" ,response.data)
       })
@@ -156,8 +194,6 @@ function cancel(){
         </Form>
         <button onClick={searchBtn}>Sök</button></>}
     
-        
-
       {searchBtnClicked && <>
         <Form>
         <label>Tid:</label>
@@ -165,7 +201,7 @@ function cancel(){
           <input type="button" value="21:00" name="time" onClick={handleClick}></input>
           <br />
         </Form>
-        <button onClick={searchTime}>Sök ledig tid</button>
+       
         <button onClick={cancel}>Avbryt</button>
         </>}
 
@@ -179,12 +215,17 @@ function cancel(){
           <input type="text" name="email" value={customer.email} onChange={handlecostumer}></input>
           <label>Telefonnr:</label>
           <input type="text" name="phone" value={customer.phone} onChange={handlecostumer}></input>
+         
         </Form>
-        <button onClick={reserve}>Reservera</button>
+
+        <button onClick={checkGprd}>Reservera</button>
         <button onClick={cancel}>Avbryt</button>
 
           </>}
-      
+          {gprdCheckBox &&  <><p>Gprd<input type ="checkbox"></input></p>
+          <button onClick={reserve}>Godkänn</button>
+          </>}
+          {bookingConfirmed && <div>Bokning genomförd</div>}
           </BookingSection>
     </>
   );
