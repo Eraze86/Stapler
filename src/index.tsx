@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOMClient from "react-dom/client";
 import './index.css';
 
 import reportWebVitals from './reportWebVitals';
@@ -9,10 +9,12 @@ import { Home } from './components/Home/home';
 import { Booking } from './components/Booking/booking';
 import { Contact } from './components/Contact/contact';
 import { Admin } from './components/Admin/admin';
-import App from './App';
 import { NoPage } from './components/Nopagefound/nopagefound';
 
-ReactDOM.render(
+const container = document.getElementById("root");
+const root = ReactDOMClient.createRoot(container as Element);
+
+root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
@@ -26,7 +28,6 @@ ReactDOM.render(
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
