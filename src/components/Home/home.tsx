@@ -13,7 +13,7 @@ export function Home(){
     return (<>
 
         <Div>
-            <Img src={ homeImg } alt="table at restaurant"/>
+            <Img src={ homeImg } alt="Tables at restaurant. Credit: Carlos Aranda"/>
             <H1>Stapler</H1>
             <LinkBookBtnHome to="/booking">Boka bord</LinkBookBtnHome>
         </Div>

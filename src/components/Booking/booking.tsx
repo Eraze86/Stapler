@@ -24,17 +24,17 @@ export function Booking() {
     date: "",
     time: "",
     numberOfGuests: 0,
-    customer: customer,    
-      
+    customer: customer,
+
   });
- 
+
   const [bookings, setBookings] = useState<Bookings[]>([])
- 
+
   const [searchTimeClicked, setSearchTimeClicked] = useState(false);
   const [bookingSite, setBookingSite] = useState(false);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [gprdCheckBox, setGprdCheckBox] = useState(false);
- 
+
   //hämta befintlig bokingsinformation
   useEffect(() => {
     let service = new GetBookingsService();
@@ -76,7 +76,7 @@ export function Booking() {
     console.log(e.target.value)
     setCustomer({ ...customer, [name]: e.target.value })
   }
- 
+
   function searchBtn() {
     setBookingSite(false)
     setSearchBtnClicked(true)
@@ -105,7 +105,7 @@ export function Booking() {
                       setEatEarly(false);
                       return;
                   }
-              } 
+              }
           } else if(bookings[i].time === "18:00") {
               setEatEarly(true);
               console.log("FINNS 18");
@@ -127,7 +127,7 @@ const [ eatLate, setEatLate ] = useState(false);
                         setEatLate(false);
                         return;
                     }
-                } 
+                }
             } else if(bookings[i].time === "21:00") {
                 setEatLate(true);
                 console.log("FINNS 21");
@@ -145,9 +145,9 @@ function cancel(){
     setSearchTimeClicked(false)
     setGprdCheckBox(true)
     console.log(bookings)
-    
+
    }
-    
+
     function reserve(){
       setGprdCheckBox(false)
       setBookingConfirmed(true)
@@ -161,7 +161,7 @@ function cancel(){
         // console.log("datum" ,response.data)
       })
       .catch(error => { console.log(error); })
-      
+
   }
 
   return (
@@ -169,7 +169,7 @@ function cancel(){
       <H1Booking>Boka Bord</H1Booking>
 
       <BookingSection>
-        <img src={bookingImg} />
+        <img src={bookingImg} alt="Plate with tomatoes and burrata. Credit: Pinar Kucuk" />
         {bookingSite && <><Form>
           <label>Datum:</label>
           <br />
@@ -193,7 +193,7 @@ function cancel(){
 
         </Form>
         <button onClick={searchBtn}>Sök</button></>}
-    
+
       {searchBtnClicked && <>
         <Form>
         <label>Tid:</label>
@@ -201,7 +201,7 @@ function cancel(){
           <input type="button" value="21:00" name="time" onClick={handleClick}></input>
           <br />
         </Form>
-       
+
         <button onClick={cancel}>Avbryt</button>
         </>}
 
@@ -215,7 +215,7 @@ function cancel(){
           <input type="text" name="email" value={customer.email} onChange={handlecostumer}></input>
           <label>Telefonnr:</label>
           <input type="text" name="phone" value={customer.phone} onChange={handlecostumer}></input>
-         
+
         </Form>
 
         <button onClick={checkGprd}>Reservera</button>
