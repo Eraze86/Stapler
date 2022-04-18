@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { Bookings } from "../../modules/Bookings"
+import { BookingSection } from "../Styled/Section";
 
 export function Admin(){
     const [bookings, setBookings ] = useState<Bookings[]>([]);
@@ -45,9 +46,11 @@ export function Admin(){
     });
 
     return (<>
+        <BookingSection>
         <div>
             <h1>Bokningar</h1>
             {bookings.length > 0 ? <ul>{lis}</ul> : <p>Det finns tyvärr inga bokningar..</p>}
         </div>
+        </BookingSection>
     </>)
 }
