@@ -11,7 +11,7 @@ export function Contact(){
     return (<>
         <Div>
             <H1>Kontakt</H1>
-            <Img src={contactImg} alt="chef chopping food" />
+            <Img src={contactImg} alt="A chef dressed in a white coat working in a kitchen. Credit: Pylup Sukhenko" />
         </Div>
         <Section>
                 <DivContact className="contactInfo">

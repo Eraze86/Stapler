@@ -93,6 +93,7 @@ export function Booking(){
 
   //Funktion för att se om det finns lediga tider kl 18:00
   const [ eatEarly, setEatEarly ] = useState(false);
+
   function dinnerEarly(){  
     //Går igenom alla bokningar för restaurangen
     for (let i = 0; i < bookings.length; i++) {
@@ -140,6 +141,7 @@ export function Booking(){
                     setEatLate(false);
                 }
             } else {
+
                 setEatLate(true);
             } 
         } else if(bookings[i].time === "21:00") {
