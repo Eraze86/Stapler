@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Bookings } from "../../modules/Bookings";
 import { INewBooking, INewCustomer } from "../../modules/INewBooking";
-import { GetBookingsService } from "../services/getBookings";
+import { CreateBooking, CreateCustomer, GetBookingsService } from "../services/Bookings";
 import { BookingSection } from "../Styled/Section";
 import bookingImg from "../../img/bookingPage.jpg";
 import { Form } from "../Styled/Form";
@@ -11,7 +11,6 @@ import axios from "axios";
 
 
 export function Booking() {
-
   const [customer, setCustomer] = useState<INewCustomer>({
     name: "",
     lastname: "",
@@ -63,12 +62,14 @@ export function Booking() {
   }
    //hämtar tiden och lägger in i newBookings
    const [searchBtnClicked, setSearchBtnClicked] = useState(false);
+
    function handleClick(e: any) {
     let name: string = e.target.name
     console.log(e.target.value)
     setNewBooking({ ...newBooking, [name]: e.target.value })
     setSearchTimeClicked(true)
     setSearchBtnClicked(false);
+
   }
    // hämtar kundens information och spara i costumer
   function handlecostumer(e: ChangeEvent<HTMLInputElement>) {
@@ -86,7 +87,32 @@ export function Booking() {
 
   let earlyDinner: Bookings[] = [];
   let lateDinner: Bookings[] = [];
+
   const [ eatEarly, setEatEarly ] = useState(false);
+
+  /*checkDinnerTime()
+  function checkDinnerTime(){
+    let bookedOnDate = bookings.filter((booking) => {
+      if(newBooking.date === booking.date)
+      return booking
+    });
+
+    bookedOnDate.forEach((booking) => {
+      if(booking.time === "18:00"){
+        earlyDinner.push(booking)
+      } else {
+        lateDinner.push(booking)
+      }
+    });
+
+    if(earlyDinner.length < 15){
+      setEatEarly(true)
+    }
+    if(lateDinner.length < 15){
+      setEatLate(true)
+    }
+  }*/
+
   function dinnerEarly(){
       //Går igenom alla bokningar för restaurangen
       for (let i = 0; i < bookings.length; i++) {
@@ -96,6 +122,7 @@ export function Booking() {
               if(bookings[i].time === "18:00"){
                   //Lägger in dessa bokningar i en ny array
                   earlyDinner.push(bookings[i]);
+
                   //Om arrayen är mindre än 15 betyder det att det finns minst 1 bord ledigt den tiden
                   if(earlyDinner.length < 15) {
                       console.log("DET FINNS BORD KL 18");
@@ -144,25 +171,15 @@ function cancel(){
     setNewBooking({ ...newBooking, customer: customer });
     setSearchTimeClicked(false)
     setGprdCheckBox(true)
-    console.log(bookings)
 
    }
 
     function reserve(){
       setGprdCheckBox(false)
       setBookingConfirmed(true)
-    axios.post<INewCustomer>("https://school-restaurant-api.azurewebsites.net/api-doc/customer/create", { customer })
-      .then((response) => {
-        // console.log("gäst" , response.data)
-      })
-      .catch(error => { console.log(error); })
-   axios.post<INewBooking>("https://school-restaurant-api.azurewebsites.net/api-doc/booking/create", { newBooking })
-      .then((response) => {
-        // console.log("datum" ,response.data)
-      })
-      .catch(error => { console.log(error); })
-
-  }
+      CreateCustomer(customer)
+      CreateBooking(newBooking)
+    }
 
   return (
     <>
@@ -170,7 +187,7 @@ function cancel(){
 
       <BookingSection>
         <img src={bookingImg} alt="Plate with tomatoes and burrata. Credit: Pinar Kucuk" />
-        {bookingSite && <><Form>
+        {bookingSite && <> <Form>
           <label>Datum:</label>
           <br />
           <input type="date" name="date" onChange={handleChange}></input>
@@ -226,7 +243,8 @@ function cancel(){
           <button onClick={reserve}>Godkänn</button>
           </>}
           {bookingConfirmed && <div>Bokning genomförd</div>}
-          </BookingSection>
+
+        </BookingSection>
     </>
   );
 }
