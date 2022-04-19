@@ -23,4 +23,7 @@ export const DivHome = styled(Div)`
 export const DivContact = styled.div`
   width:33%;
   margin-bottom: 1rem;
+    @media (max-width: 768px) {
+    width: 90%;
+  }
 `

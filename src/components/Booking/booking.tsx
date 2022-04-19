@@ -189,7 +189,7 @@ function cancel(){
         <img src={bookingImg} alt="Plate with tomatoes and burrata. Credit: Pinar Kucuk" />
         {bookingSite && <> <Form>
           <label>Datum:</label>
-          <br />
+  
           <input type="date" name="date" onChange={handleChange}></input>
           <br />
 

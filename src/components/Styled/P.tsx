@@ -11,4 +11,8 @@ export const PCenter = styled(P)`
   text-algin: center;
   margin: 0 0 2rem;
   font-size: 1.2rem;
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    margin: 0 0 1rem;
+  }
 `
