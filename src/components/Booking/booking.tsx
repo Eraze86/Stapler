@@ -8,6 +8,7 @@ import { Form } from "../Styled/Form";
 import { Div } from '../Styled/Div'
 import { H1Booking } from "../Styled/Headings";
 import axios from "axios";
+import { Button } from "../Styled/Link";
 
 
 export function Booking() {
@@ -208,7 +209,7 @@ function cancel(){
 
 
         </Form>
-        <button onClick={searchBtn}>Sök</button></>}
+        <Button onClick={searchBtn}>Sök</Button></>}
 
       {searchBtnClicked && <>
         <Form>
@@ -218,7 +219,7 @@ function cancel(){
           <br />
         </Form>
 
-        <button onClick={cancel}>Avbryt</button>
+        <Button onClick={cancel}>Avbryt</Button>
         </>}
 
         {searchTimeClicked && <>
@@ -234,14 +235,16 @@ function cancel(){
 
         </Form>
 
-        <button onClick={checkGprd}>Reservera</button>
-        <button onClick={cancel}>Avbryt</button>
+        <Button onClick={checkGprd}>Reservera</Button>
+        <Button onClick={cancel}>Avbryt</Button>
 
           </>}
-          {gprdCheckBox &&  <><Div>Godkänner du Gprd?<input type ="checkbox"></input></Div>
-          <button onClick={reserve}>Godkänn</button>
+          {gprdCheckBox &&  <>
+          <Form>
+            Godkänner du Gprd?<input type ="checkbox"></input>
+          <Button onClick={reserve}>Godkänn</Button></Form>
           </>}
-          {bookingConfirmed && <Div>Bokning genomförd</Div>}
+          {bookingConfirmed && <Form>Bokning genomförd</Form>}
 
         </BookingSection>
     </>
