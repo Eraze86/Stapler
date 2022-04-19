@@ -27,3 +27,13 @@ export const DivContact = styled.div`
     width: 90%;
   }
 `
+export const DivAdmin = styled.div`
+  width: 90%;
+  margin-bottom: 12rem;
+  display: block;
+  margin-top: 2rem;
+    @media (max-width: 768px) {
+    width: 90%;
+    margin-bottom: 7rem;
+  }
+`
