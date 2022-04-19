@@ -5,7 +5,7 @@ import { CreateBooking, CreateCustomer, GetBookingsService } from "../services/B
 import { BookingSection } from "../Styled/Section";
 import bookingImg from "../../img/bookingPage.jpg";
 import { Form } from "../Styled/Form";
-
+import { Div } from '../Styled/Div'
 import { H1Booking } from "../Styled/Headings";
 import axios from "axios";
 
@@ -224,14 +224,14 @@ function cancel(){
 
         {searchTimeClicked && <>
           <Form>
-          <label>Förnamn</label><br></br>
-          <input type="text" name="name" value={customer.name} onChange={handlecostumer}></input>
+          <label>Förnamn</label>
+          <input type="text" name="name" value={customer.name} onChange={handlecostumer}></input><br/>
           <label>Efternamn</label>
-          <input type="text" name="lastname" value={customer.lastname} onChange={handlecostumer}></input>
+          <input type="text" name="lastname" value={customer.lastname} onChange={handlecostumer}></input><br/>
           <label>Email</label>
-          <input type="text" name="email" value={customer.email} onChange={handlecostumer}></input>
+          <input type="text" name="email" value={customer.email} onChange={handlecostumer}></input><br/>
           <label>Telefonnr:</label>
-          <input type="text" name="phone" value={customer.phone} onChange={handlecostumer}></input>
+          <input type="text" name="phone" value={customer.phone} onChange={handlecostumer}></input><br/>
 
         </Form>
 
@@ -239,10 +239,10 @@ function cancel(){
         <button onClick={cancel}>Avbryt</button>
 
           </>}
-          {gprdCheckBox &&  <><p>Gprd<input type ="checkbox"></input></p>
+          {gprdCheckBox &&  <><Div>Godkänner du Gprd?<input type ="checkbox"></input></Div>
           <button onClick={reserve}>Godkänn</button>
           </>}
-          {bookingConfirmed && <div>Bokning genomförd</div>}
+          {bookingConfirmed && <Div>Bokning genomförd</Div>}
 
         </BookingSection>
     </>
