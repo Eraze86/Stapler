@@ -1,15 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { Bookings } from "../../modules/Bookings"
+import { Bookings, Customer } from "../../modules/Bookings"
+import { IBooking, ICustomer } from "../../modules/IBooking";
+import { deleteBooking } from "../services/Bookings";
+import { EditBooking } from "./editBooking";
 
 export function Admin(){
     const [bookings, setBookings ] = useState<Bookings[]>([]);
+    const [bookingToChange, setBookingToChange] = useState<IBooking>(Object);
+    const [customerToChange, setCustomerToChange] = useState<ICustomer>(Object);
+    const [editorOpen, setEditorOpen] = useState<boolean>(false)
 
     useEffect(() => {
         //Hämtar bokningar med restaurangId från skapad restaurang
         axios.get<Bookings[]>('https://school-restaurant-api.azurewebsites.net/booking/restaurant/624e9b46796a187bc28ceaef')
             .then(response => {
-                console.log(response.data);
                 let dataFromApi = response.data.map((booking: Bookings) => {
                     return new Bookings(booking._id, booking.restaurantId, booking.date, booking.time, booking.numberOfGuests, booking.customerId);
                 });
@@ -20,15 +25,21 @@ export function Admin(){
             .catch(error => {console.log("ERROR:", error)})
     },[])
 
-    //Funktion för att radera/avboka en bokning, genom API delete och skickar med id på bokningen
-    function deleteBooking(id: string){
-        axios.delete<Bookings>('https://school-restaurant-api.azurewebsites.net/booking/delete/' + id)
-            .then(response => {
-                console.log(response.data);
-                //Laddar om sidan för att bokningen ska försvinna
-                window.location.reload();
+    function editButtonClick(clickedBooking: Bookings){
+        /*axios.get<Customer[]>("https://school-restaurant-api.azurewebsites.net/customer/" + clickedBooking.customerId)
+        .then(response => {
+            let dataFromApi = response.data.map((customer: Customer) => {
+                return new Customer(customer._id, customer.name, customer.lastname, customer.email, customer.phone)
             })
-            .catch(error => {console.log(error);});
+            setCustomerToChange(dataFromApi[0])
+        })*/
+
+        bookings.find((booking) => {
+            if(booking._id === clickedBooking._id){
+                setBookingToChange(booking)
+            }
+        })
+        setEditorOpen(true)
     }
 
     //Skriver ut alla bokningar med map, skapar en avboka knapp samt ändra bokning knapp
@@ -41,6 +52,7 @@ export function Admin(){
                 <p>Tid: {booking.time}</p>
                 <p>Antal gäster: {booking.numberOfGuests}</p>
                 <button onClick={() => deleteBooking(booking._id)}>Avboka</button>
+                <button onClick={() => {editButtonClick(booking)}}>Ändra</button>
             </li>)
     });
 
@@ -49,5 +61,6 @@ export function Admin(){
             <h1>Bokningar</h1>
             {bookings.length > 0 ? <ul>{lis}</ul> : <p>Det finns tyvärr inga bokningar..</p>}
         </div>
+        {editorOpen ?  <EditBooking booking={bookingToChange} customer={customerToChange} /> : <></>}
     </>)
 }

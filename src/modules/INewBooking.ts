@@ -1,7 +1,7 @@
 export interface INewBooking {
   restaurantId: string;
-  date: String;
-  time: String;
+  date: string;
+  time: string;
   numberOfGuests: number;
   customer: INewCustomer;
 }
