@@ -12,4 +12,7 @@ export const StyledFooter = styled.footer`
     display: flex;
     flex-direction: column;
   }
+  @media (max-width: 768px) {
+    
+  }
 `

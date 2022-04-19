@@ -11,4 +11,8 @@ export const Li = styled.li`
   font-size: 1.1rem;
   margin:0.2rem 5rem 0 0;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    margin:1rem;
+}
 `

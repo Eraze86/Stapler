@@ -6,7 +6,7 @@ export const Logotype = styled.div`
     color:white;
     text-decoration:none;
     font-family: 'Carattere';
-    font-size: 2.6rem;
+    font-size: 2rem;
     font-weight: bold;
   }
 `
