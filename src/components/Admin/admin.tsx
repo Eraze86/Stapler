@@ -3,6 +3,11 @@ import { useEffect, useState } from "react"
 import { Bookings } from "../../modules/Bookings"
 import { IBooking } from "../../modules/IBooking";
 import { deleteBooking } from "../services/Bookings";
+import { DivAdmin } from "../Styled/Div";
+import { H1Booking } from "../Styled/Headings";
+import { P } from "../Styled/P";
+import { Section } from "../Styled/Section";
+import { Li, Ul } from "../Styled/Ul";
 import { EditBooking } from "./editBooking";
 
 export function Admin(){
@@ -37,21 +42,25 @@ export function Admin(){
     let lis = bookings
         .sort((a,b) => parseInt(a.date[2] + a.date[3] + a.date[5] + a.date[6] + a.date[8] + a.date[9]) - parseInt(b.date[2] + b.date[3] + b.date[5] + b.date[6] + b.date[8] + b.date[9]))
         .map((booking) => {
-            return (<li key={booking._id}>
+            return (<Li key={booking._id}>
                 <h3>Boknings id: {booking._id}</h3>
-                <p>Datum: {booking.date}</p>
-                <p>Tid: {booking.time}</p>
-                <p>Antal gäster: {booking.numberOfGuests}</p>
+                <P>Datum: {booking.date}</P>
+                <P>Tid: {booking.time}</P>
+                <P>Antal gäster: {booking.numberOfGuests}</P>
                 <button onClick={() => deleteBooking(booking._id)}>Avboka</button>
                 <button onClick={() => {editButtonClick(booking)}}>Ändra</button>
-            </li>)
+            </Li>)
     });
 
     return (<>
-        <div>
-            <h1>Bokningar</h1>
-            {bookings.length > 0 ? <ul>{lis}</ul> : <p>Det finns tyvärr inga bokningar..</p>}
-        </div>
+        <DivAdmin>
+        <H1Booking>Bokningar</H1Booking>
+        </DivAdmin>
+            <Section>
+           
+            {bookings.length > 0 ? <Ul>{lis}</Ul> : <P>Det finns tyvärr inga bokningar..</P>}
+            </Section>
+           
         {editorOpen ?  <EditBooking booking={bookingToChange} /> : <></>}
     </>)
 }

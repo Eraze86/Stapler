@@ -4,7 +4,7 @@ export const P = styled.p`
   font-family: 'Courier New';
   font-weight: normal;
   font-size: 1rem;
-  margin: 0;
+  margin: 0.5;
 
 `
 export const PCenter = styled(P)`
