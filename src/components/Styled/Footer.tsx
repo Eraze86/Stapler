@@ -13,6 +13,11 @@ export const StyledFooter = styled.footer`
     flex-direction: column;
   }
   @media (max-width: 768px) {
-    
+    flex-direction: column;
+    div{
+      h2{
+        font-size: 0.8rem;
+      }
+    }
   }
 `

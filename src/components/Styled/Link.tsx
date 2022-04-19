@@ -23,10 +23,9 @@ export const LinkBookBtnHome = styled(LinkBookBtn)`
   position: absolute;
 
   @media (max-width: 768px) {
-  bottom: 33rem;
+  bottom: 30rem;
   left: 1rem;
-  font-size: 1rem;
-  padding: 0.5rem;
+  font-size: 0.8rem;
   }
 `
 
@@ -36,6 +35,12 @@ export const LinkSmallBookBtn = styled(LinkBookBtn)`
   padding: 0.6rem;
   width: fit-content;
   align-self: center;
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+    margin: 0.3rem;
+    padding: 0.3rem;
+  }
+
 `
 
 export const LinkNav = styled(NavLink)`
@@ -50,6 +55,8 @@ export const LinkNav = styled(NavLink)`
 
   &[class*='active'] {
   color: #FECB4B;
+
+
 `
 
 export const LinkAdmin = styled(Link)`

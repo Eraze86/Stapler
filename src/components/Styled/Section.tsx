@@ -26,10 +26,12 @@ export const Section = styled.section`
     top: 1rem;
     margin: 0 1rem 3rem;
     padding: 0.6rem;
+    flex-direction: column;
     section{
       padding-left: 0rem;
       padding-right: 0rem;
       width:100%;
+      
     }
   }
 `
@@ -42,5 +44,15 @@ export const BookingSection = styled(Section)`
 
   img{
     max-width: 50%;
+  }
+  @media (max-width: 768px) {
+    margin-top: 7rem;
+    img{
+      max-width: 100%;
+      height: 8rem;
+      object-fit: cover;
+
+      
+    }
   }
 `
