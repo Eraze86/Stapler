@@ -8,7 +8,7 @@ export const Div = styled.div`
   width: 100vw;
 
   @media (max-width: 768px) {
-      height: 4rem;
+      height: 7rem;
   }
 `
 export const DivHome = styled(Div)`

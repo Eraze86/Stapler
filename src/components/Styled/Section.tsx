@@ -23,7 +23,7 @@ export const Section = styled.section`
   }
 
   @media (max-width: 768px) {
-    top: 5rem;
+    top: 1rem;
     margin: 0 1rem 3rem;
     padding: 0.6rem;
     section{
