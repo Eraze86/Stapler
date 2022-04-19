@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Bookings } from "../../modules/Bookings";
 import { INewBooking, INewCustomer } from "../../modules/INewBooking";
-import { CreateBooking, CreateCustomer, GetBookingsService } from "../services/Bookings";
+import { createBooking, createCustomer, GetBookingsService } from "../services/Bookings";
 import { BookingSection } from "../Styled/Section";
 import bookingImg from "../../img/bookingPage.jpg";
 import { Form } from "../Styled/Form";
@@ -24,7 +24,6 @@ export function Booking() {
     time: "",
     numberOfGuests: 0,
     customer: customer,
-
   });
 
   const [bookings, setBookings] = useState<Bookings[]>([])
@@ -177,8 +176,8 @@ function cancel(){
     function reserve(){
       setGprdCheckBox(false)
       setBookingConfirmed(true)
-      CreateCustomer(customer)
-      CreateBooking(newBooking)
+      createCustomer(customer)
+      createBooking(newBooking)
     }
 
   return (
