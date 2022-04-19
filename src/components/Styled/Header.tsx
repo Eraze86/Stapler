@@ -17,4 +17,14 @@ export const StyledHeader = styled.header`
     justify-content: space-between;
     }
   }
+
+    @media (max-width: 768px) {
+      padding:1rem 1rem;
+      align-items: flex-start;
+      nav{
+        flex-direction: column;
+        width: 5rem;
+
+        }
+  }
 `

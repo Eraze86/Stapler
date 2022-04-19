@@ -21,6 +21,13 @@ export const LinkBookBtn = styled(Link) `
 export const LinkBookBtnHome = styled(LinkBookBtn)`
   bottom: 17rem;
   position: absolute;
+
+  @media (max-width: 768px) {
+  bottom: 33rem;
+  left: 1rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  }
 `
 
 export const LinkSmallBookBtn = styled(LinkBookBtn)`

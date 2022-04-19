@@ -5,6 +5,7 @@ export const P = styled.p`
   font-weight: normal;
   font-size: 1rem;
   margin: 0;
+
 `
 export const PCenter = styled(P)`
   text-algin: center;

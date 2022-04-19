@@ -21,6 +21,17 @@ export const Section = styled.section`
     padding-right: 1.5rem;
     box-sizing: border-box;
   }
+
+  @media (max-width: 768px) {
+    top: 5rem;
+    margin: 0 1rem 3rem;
+    padding: 0.6rem;
+    section{
+      padding-left: 0rem;
+      padding-right: 0rem;
+      width:100%;
+    }
+  }
 `
 
 export const BookingSection = styled(Section)`
