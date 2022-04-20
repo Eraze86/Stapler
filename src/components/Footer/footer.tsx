@@ -27,7 +27,7 @@ export const Footer = () => {
           info@stapler.com<br/>
           070 - 111 22 33
         </PCenter>
-        <LinkAdmin to="/booking/update" className="adminLink">Admin</LinkAdmin>
+        <LinkAdmin to="/admin" className="adminLink">Admin</LinkAdmin>
       </div>
     </StyledFooter>
   )

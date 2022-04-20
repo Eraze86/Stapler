@@ -22,7 +22,7 @@ root.render(
           <Route index element={<Home />} />
           <Route path="booking" element={<Booking />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="booking/update" element={<Admin />} />
+          <Route path="admin" element={<Admin />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

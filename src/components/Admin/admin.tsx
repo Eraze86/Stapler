@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { Bookings } from "../../modules/Bookings"
-import { IBooking } from "../../modules/IBooking";
-import { deleteBooking } from "../services/Bookings";
+import { Bookings, Customer } from "../../modules/Bookings"
+import { IBooking, ICustomer } from "../../modules/IBooking";
+import { BookingsService } from "../services/BookingService";
+import { CustomerService } from "../services/CustomerService";
 import { DivAdmin } from "../Styled/Div";
 import { H1Booking } from "../Styled/Headings";
 import { P } from "../Styled/P";
@@ -11,8 +12,14 @@ import { Li, Ul } from "../Styled/Ul";
 import { EditBooking } from "./editBooking";
 
 export function Admin(){
-    const [bookings, setBookings ] = useState<Bookings[]>([]);
+    let bookingService = new BookingsService();
+    let customerService = new CustomerService();
+    let customerArray: Customer[] = [];
+
+    const [bookings, setBookings ] = useState<IBooking[]>([]);
+    const [customers, setCustomers] = useState<Customer[]>([]);
     const [bookingToChange, setBookingToChange] = useState<IBooking>(Object);
+    const [customerToChange, setCustomerToChange] = useState<ICustomer>(Object)
     const [editorOpen, setEditorOpen] = useState<boolean>(false)
 
     useEffect(() => {
@@ -29,14 +36,34 @@ export function Admin(){
             .catch(error => {console.log("ERROR:", error)})
     },[])
 
+    useEffect(() => {
+        bookings.forEach((booking) => {
+            customerService.getCustomer(booking.customerId)
+            .then(response => {
+                response.map((res) => {
+                    customerArray.push(res)
+                    setCustomers(customerArray)
+                })
+            })
+        })
+    }, [])
+
     function editButtonClick(clickedBooking: Bookings){
         bookings.find((booking) => {
             if(booking._id === clickedBooking._id){
-                setBookingToChange(booking)
+                setBookingToChange(booking);
+
+                customers.find((customer) => {
+                    if(customer._id === bookingToChange.customerId){
+                        setCustomerToChange(customer)
+                    }
+                })
             }
         })
         setEditorOpen(true)
     }
+
+
 
     //Skriver ut alla bokningar med map, skapar en avboka knapp samt ändra bokning knapp
     let lis = bookings
@@ -47,7 +74,7 @@ export function Admin(){
                 <P>Datum: {booking.date}</P>
                 <P>Tid: {booking.time}</P>
                 <P>Antal gäster: {booking.numberOfGuests}</P>
-                <button onClick={() => deleteBooking(booking._id)}>Avboka</button>
+                <button onClick={() => bookingService.deleteBooking(booking._id)}>Avboka</button>
                 <button onClick={() => {editButtonClick(booking)}}>Ändra</button>
             </Li>)
     });
@@ -57,10 +84,10 @@ export function Admin(){
         <H1Booking>Bokningar</H1Booking>
         </DivAdmin>
             <Section>
-           
+
             {bookings.length > 0 ? <Ul>{lis}</Ul> : <P>Det finns tyvärr inga bokningar..</P>}
             </Section>
-           
-        {editorOpen ?  <EditBooking booking={bookingToChange} /> : <></>}
+
+        {editorOpen ?  <EditBooking booking={bookingToChange} customer={customerToChange} /> : <></>}
     </>)
 }
