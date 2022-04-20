@@ -72,8 +72,3 @@ export const LinkAdmin = styled(Link)`
     color:white;
   }
 `
-export const Button = styled.button`
-width: 100%;
-Background-color: #fecb4b;
-
-`

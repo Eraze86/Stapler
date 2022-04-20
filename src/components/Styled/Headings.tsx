@@ -34,7 +34,6 @@ export const H2 = styled.h2`
     margin: 0.3rem;
 }
 `
-
 export const H3 = styled.h3`
   font-family: 'Raleway';
   font-size: 1.5rem;
@@ -43,9 +42,14 @@ export const H3 = styled.h3`
   @media (max-width: 768px) {
     font-size: 1.2rem;
     margin: 0.3rem;
-}
-  
+  }
 `
+
+export const H3Bold = styled(H3)`
+  font-weight: 500;
+  margin: 2.5rem 0 1.3rem;
+`
+
 export const H4 = styled.h4`
   font-size: 1rem;
   margin: 0.8rem 0 0.2rem;
