@@ -1,62 +1,48 @@
-import axios from "axios"
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react"
+import { ChangeEvent, MouseEvent, useState } from "react"
 import { BookingChanges } from "../../modules/ChangeBooking"
 import { IBookingProps } from "../../modules/IBookingsProps"
+import { GuestSelect } from "../GuestSelect/GuestSelect"
 import { BookingsService } from "../services/BookingService"
+import { Button } from "../Styled/Button"
+import { Form, Input, Select } from "../Styled/Form"
 
 export const EditBooking = (props: IBookingProps) => {
   let bookingService = new BookingsService();
+
   const [bookingEdits, setBookingEdits] = useState<BookingChanges>({
     date: props.booking.date,
     time: props.booking.time,
     numberOfGuests: props.booking.numberOfGuests,
   });
 
-   //select-lista med nummer
-   const NumberOptions = () => {
-    let minGuests = 0;
-    let list: number[] = []
-
-    while (minGuests<90){
-      minGuests += 1;
-      list.push(minGuests)
-    }
-
-    let options = list.map((lis, i) => {
-      return(<option key={i}>{lis}</option>)
-    })
-
-    return(<>{options}</>)
-  }
-
-  function handleSelect(e: ChangeEvent<HTMLSelectElement>){
-    let numberSelected = parseInt(e.target.value)
-    setBookingEdits({...bookingEdits, numberOfGuests: numberSelected})
-  }
-
   function handleCustomerChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>){
-    let name: string | number = e.target.name;
-    setBookingEdits({...bookingEdits, [name]: e.target.value})
+    let name: string = e.target.name;
+    let numberSelected = parseInt(e.target.value)
+
+    if(name != "numberOfGuests"){
+      setBookingEdits({...bookingEdits, [name]: e.target.value})
+    } else {
+      setBookingEdits({...bookingEdits, numberOfGuests: numberSelected})
+    }
   }
 
   function saveEdits(e: MouseEvent<HTMLButtonElement>){
-    e.preventDefault();
     bookingService.updateBooking(props.booking._id, bookingEdits, props.booking.customerId);
   }
 
   return(
-    <form>
-      <label>Datum</label>
-      <input type="date" name="date" defaultValue={props.booking.date} onChange={handleCustomerChange}></input>
-      <label>Tid</label>
-      <select defaultValue={props.booking.time} onChange={handleCustomerChange}>
-        <option>18:00</option>
-        <option>21:00</option>
-      </select>
-      <label>Storlek på sällskap</label>
-      <select onChange={handleSelect} value={bookingEdits.numberOfGuests}><NumberOptions/></select>
+      <Form>
+        <label>Datum</label>
+        <Input type="date" name="date" defaultValue={props.booking.date} onChange={handleCustomerChange}></Input>
+        <label>Tid</label>
+        <Select name="time" defaultValue={props.booking.time} onChange={handleCustomerChange}>
+          <option>18:00</option>
+          <option>21:00</option>
+        </Select>
+        <label>Storlek på sällskap</label>
+        <Select name="numberOfGuests" onChange={handleCustomerChange} value={bookingEdits.numberOfGuests}><GuestSelect/></Select>
 
-      <button onClick={saveEdits}>Spara</button>
-    </form>
+        <Button onClick={saveEdits}>Spara</Button>
+      </Form>
   )
 }

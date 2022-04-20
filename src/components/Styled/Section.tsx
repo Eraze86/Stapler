@@ -31,7 +31,7 @@ export const Section = styled.section`
       padding-left: 0rem;
       padding-right: 0rem;
       width:100%;
-      
+
     }
   }
 `
@@ -51,8 +51,24 @@ export const BookingSection = styled(Section)`
       max-width: 100%;
       height: 8rem;
       object-fit: cover;
+    }
+  }
+`
 
-      
+export const SectionEditBooking = styled(Section)`
+  box-sizing: border-box;
+  top: 0;
+  position: relative;
+  flex-direction: column;
+  margin:5rem 20rem;
+  backdrop-filter: blur;
+
+  @media (max-width: 768px) {
+    margin-top: 7rem;
+    img{
+      max-width: 100%;
+      height: 8rem;
+      object-fit: cover;
     }
   }
 `

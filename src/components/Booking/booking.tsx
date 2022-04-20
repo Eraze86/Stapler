@@ -4,9 +4,11 @@ import { INewBooking, INewCustomer } from "../../modules/INewBooking";
 import { BookingsService } from "../services/BookingService";
 import { BookingSection } from "../Styled/Section";
 import bookingImg from "../../img/bookingPage.jpg";
-import { Form } from "../Styled/Form";
-import { H1Booking } from "../Styled/Headings";
-import { Button } from "../Styled/Link";
+import { Form, Input, InputBtn, Select } from "../Styled/Form";
+import { H1Booking, H3, H3Bold } from "../Styled/Headings";
+import { Button } from "../Styled/Button";
+import { DivBooking } from "../Styled/Div";
+import { GuestSelect } from "../GuestSelect/GuestSelect";
 
 export function Booking() {
   let bookingService = new BookingsService();
@@ -32,6 +34,7 @@ export function Booking() {
   const [bookingSite, setBookingSite] = useState(false);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [gprdCheckBox, setGprdCheckBox] = useState(false);
+  const [error, setError] = useState(false);
 
   //hämta befintlig bokingsinformation
   useEffect(() => {
@@ -52,32 +55,17 @@ export function Booking() {
     })
   }, []);
 
-  //select-lista med nummer
-  const NumberOptions = () => {
-    let minGuests = 0;
-    let list: number[] = []
-
-    while (minGuests<90){
-      minGuests += 1;
-      list.push(minGuests)
-    }
-
-    let options = list.map((lis, i) => {
-      return(<option key={i}>{lis}</option>)
-    })
-
-    return(<>{options}</>)
-  }
-
   // hämtar kundens valda datum och tid och sparar om i newBooking
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    let name: string = e.target.name
-    setNewBooking({ ...newBooking, [name]: e.target.value })
-  }
-
-  function handleSelect(e: ChangeEvent<HTMLSelectElement>){
+  function handleChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    let name: string = e.target.name;
     let numberSelected = parseInt(e.target.value)
-    setNewBooking({...newBooking, numberOfGuests: numberSelected})
+
+    if(name != "numberOfGuests"){
+      setNewBooking({...newBooking, [name]: e.target.value})
+    } else {
+      setNewBooking({...newBooking, numberOfGuests: numberSelected})
+    }
+    setError(false)
   }
 
    //hämtar tiden och lägger in i newBookings
@@ -85,7 +73,6 @@ export function Booking() {
 
    function handleClick(e: any) {
     let name: string = e.target.name
-    console.log(e.target.value)
     setNewBooking({ ...newBooking, [name]: e.target.value })
     setSearchTimeClicked(true)
     setSearchBtnClicked(false);
@@ -97,10 +84,14 @@ export function Booking() {
   }
 
   function searchBtn() {
-    setBookingSite(false)
-    setSearchBtnClicked(true)
-    dinnerEarly()
-    dinnerLate()
+    if(newBooking.date !== "" && newBooking.numberOfGuests >= 1){
+      setBookingSite(false)
+      setSearchBtnClicked(true)
+      dinnerEarly()
+      dinnerLate()
+    } else {
+      setError(true)
+    }
   }
 
   let earlyDinner: Bookings[] = [];
@@ -182,7 +173,8 @@ const [ eatLate, setEatLate ] = useState(false);
 function cancel(){
   setBookingSite(true)
   setSearchBtnClicked(false)
-  setSearchTimeClicked(true)
+  setNewBooking({ ...newBooking, numberOfGuests: 1 });
+  setSearchTimeClicked(false)
 }
 
    function checkGprd() {
@@ -204,49 +196,56 @@ function cancel(){
       <H1Booking>Boka Bord</H1Booking>
 
       <BookingSection>
-        <Form>
         <img src={bookingImg} alt="Plate with tomatoes and burrata. Credit: Pinar Kucuk" />
-        {bookingSite && <>
-          <label>Datum:</label>
+        <DivBooking>
+          <Form>
+          {bookingSite && <>
+            <H3Bold>När vill ni äta?</H3Bold>
+            <Input type="date" name="date" onChange={handleChange}></Input>
 
-          <input type="date" name="date" onChange={handleChange}></input>
-          <br />
+            <H3Bold>Hur många är ni?</H3Bold>
+            <Select name="numberOfGuests" onChange={handleChange} value={newBooking.numberOfGuests}><GuestSelect/></Select>
 
-          Antal:
-          <select name="numberOfGuests" onChange={handleSelect} value={newBooking.numberOfGuests}><NumberOptions/></select>
+          <Button onClick={searchBtn} type="button">Sök</Button></>}
 
-        <Button onClick={searchBtn}>Sök</Button></>}
+          {error && <>Vänligen välj datum och antal personer</>}
 
-      {searchBtnClicked && <div>
-        <label>Tid:</label>
-          <input type="button" value="18:00" name="time" onClick={handleClick}></input>
-          <input type="button" value="21:00" name="time" onClick={handleClick}></input>
-          <br />
+        {searchBtnClicked && <>
+          <H3Bold>Vilken tid vill ni äta?</H3Bold>
+          <div>
+            <InputBtn type="button" value="18:00" name="time" onClick={handleClick}></InputBtn>
+            <InputBtn type="button" value="21:00" name="time" onClick={handleClick}></InputBtn>
+          </div>
 
-        <Button onClick={cancel}>Avbryt</Button>
-        </div>}
-
-        {searchTimeClicked && <>
-          <label>Förnamn</label>
-          <input type="text" name="name" value={customer.name} onChange={handlecostumer}></input><br/>
-          <label>Efternamn</label>
-          <input type="text" name="lastname" value={customer.lastname} onChange={handlecostumer}></input><br/>
-          <label>Email</label>
-          <input type="text" name="email" value={customer.email} onChange={handlecostumer}></input><br/>
-          <label>Telefonnr:</label>
-          <input type="text" name="phone" value={customer.phone} onChange={handlecostumer}></input><br/>
-
-        <Button onClick={checkGprd}>Reservera</Button>
-        <Button onClick={cancel}>Avbryt</Button>
-
+          <Button onClick={cancel} type="reset">Avbryt</Button>
           </>}
-          {gprdCheckBox &&  <>
-            Godkänner du Gprd?<input type ="checkbox"></input>
-          <Button onClick={reserve}>Godkänn</Button>
-          </>}
-          {bookingConfirmed && <div>Bokning genomförd</div>}
+
+          {searchTimeClicked && <>
+            <H3Bold>Ange kontaktuppgifter</H3Bold>
+            <label>Förnamn</label>
+            <Input type="text" name="name" value={customer.name} onChange={handlecostumer} placeholder="John"></Input>
+            <label>Efternamn</label>
+            <Input type="text" name="lastname" value={customer.lastname} onChange={handlecostumer} placeholder="Doe"></Input>
+            <label>E-mail</label>
+            <Input type="text" name="email" value={customer.email} onChange={handlecostumer} placeholder="john.doe@email.com"></Input>
+            <label>Telefon</label>
+            <Input type="text" name="phone" value={customer.phone} onChange={handlecostumer} placeholder="070-343 43 43"></Input>
+
+            <div>
+              <Button onClick={checkGprd}>Reservera</Button>
+              <Button onClick={cancel} type="reset">Avbryt</Button>
+            </div>
+
+            </>}
+            {gprdCheckBox &&  <>
+              <H3Bold>Godkänner du GDPR?</H3Bold>
+              <input type ="checkbox"></input>
+              <Button onClick={reserve}>Godkänn</Button>
+            </>}
+            {bookingConfirmed && <div>Bokning genomförd</div>}
 
             </Form>
+          </DivBooking>
         </BookingSection>
     </>
   );

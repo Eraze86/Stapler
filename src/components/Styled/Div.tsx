@@ -37,3 +37,22 @@ export const DivAdmin = styled.div`
     margin-bottom: 7rem;
   }
 `
+
+export const DivBooking = styled.div`
+  width:50%;
+  padding: 2rem;
+  box-sizing: border-box;
+`
+
+export const DivBlur = styled.div`
+  position: absolute;
+  backdrop-filter: blur(20px);
+  background-color: #1f2d328f;
+  top: 1.6rem;
+  width: 100vw;
+  height: 100%;
+  z-index:999;
+`
+export const DivBlurParent = styled.div`
+  position: relative;
+`
