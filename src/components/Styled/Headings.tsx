@@ -2,11 +2,14 @@ import styled, { keyframes } from "styled-components";
 
 const fadeIn = keyframes`
   
-    from { opacity: 0;}
+    from { opacity: 0;
+      animation-delay: 1s;}
     to { opacity: 1;
       }
 
 `
+
+
 
 export const H1 = styled.h1`
   @import url('https://fonts.googleapis.com/css2?family=Carattere&display=swap');
@@ -20,11 +23,13 @@ export const H1 = styled.h1`
   position: absolute;
   top: 4rem;
   z-index:5;
-  animation: ${fadeIn} 2s ease-in;
 
   @media (max-width: 768px) {
   display: none;
   }
+`
+export const H1Logo = styled(H1)`
+animation: ${fadeIn} 2s ease-in;
 `
 
 export const H1Booking = styled(H1)`

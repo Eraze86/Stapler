@@ -2,7 +2,7 @@
 import homeImg from '../../img/homePage.jpg'
 import { Section } from "../Styled/Section";
 import { FoodMenu } from "./foodMenu";
-import { H1 } from "../Styled/Headings";
+import { H1, H1Logo } from "../Styled/Headings";
 import { H2 } from "../Styled/Headings";
 import { Div, DivHome } from "../Styled/Div";
 import { PCenter } from "../Styled/P";
@@ -14,7 +14,7 @@ export function Home(){
 
         <Div>
             <Img src={ homeImg } alt="Tables at restaurant. Credit: Carlos Aranda"/>
-            <H1>Stapler</H1>
+            <H1Logo>Stapler</H1Logo>
             <LinkBookBtnHome to="/booking">Boka bord</LinkBookBtnHome>
         </Div>
 
