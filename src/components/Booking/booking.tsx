@@ -9,6 +9,7 @@ import { H1Booking, H3, H3Bold } from "../Styled/Headings";
 import { Button } from "../Styled/Button";
 import { DivBooking } from "../Styled/Div";
 import { GuestSelect } from "../GuestSelect/GuestSelect";
+import { P } from "../Styled/P";
 
 export function Booking() {
   let bookingService = new BookingsService();
@@ -239,7 +240,7 @@ function cancel(){
             </>}
             {gprdCheckBox &&  <>
               <H3Bold>Godkänner du GDPR?</H3Bold>
-              <input type ="checkbox"></input>
+              <P><input type ="checkbox"></input></P>
               <Button onClick={reserve}>Godkänn</Button>
             </>}
             {bookingConfirmed && <div>Bokning genomförd</div>}

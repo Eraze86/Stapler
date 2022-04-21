@@ -23,7 +23,7 @@ export const LinkBookBtnHome = styled(LinkBookBtn)`
   position: absolute;
 
   @media (max-width: 768px) {
-  bottom: 30rem;
+  bottom: 33rem;
   left: 1rem;
   font-size: 0.8rem;
   }
