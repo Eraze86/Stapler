@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/react-restaurang/static/css/main.f3723708.css",
+    "main.js": "/react-restaurang/static/js/main.0d07b788.js",
+    "static/js/787.c39ad7d4.chunk.js": "/react-restaurang/static/js/787.c39ad7d4.chunk.js",
+    "static/media/homePage.jpg": "/react-restaurang/static/media/homePage.3c23aeae51dfb1abbecd.jpg",
+    "static/media/bookingPage.jpg": "/react-restaurang/static/media/bookingPage.1b47549d5a4b210c92f9.jpg",
+    "static/media/contactPage.jpg": "/react-restaurang/static/media/contactPage.36a35e26e0afee8ada70.jpg",
+    "index.html": "/react-restaurang/index.html",
+    "main.f3723708.css.map": "/react-restaurang/static/css/main.f3723708.css.map",
+    "main.0d07b788.js.map": "/react-restaurang/static/js/main.0d07b788.js.map",
+    "787.c39ad7d4.chunk.js.map": "/react-restaurang/static/js/787.c39ad7d4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f3723708.css",
+    "static/js/main.0d07b788.js"
+  ]
+}
