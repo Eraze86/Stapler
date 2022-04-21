@@ -97,8 +97,6 @@ export function Booking() {
   let earlyDinner: Bookings[] = [];
   let lateDinner: Bookings[] = [];
 
-  const [ eatEarly, setEatEarly ] = useState(false);
-
   /*checkDinnerTime()
   function checkDinnerTime(){
     let bookedOnDate = bookings.filter((booking) => {
@@ -122,6 +120,7 @@ export function Booking() {
     }
   }*/
 
+  const [ eatEarly, setEatEarly ] = useState(false);
   function dinnerEarly(){
     //Går igenom alla bokningar för restaurangen
     for (let i = 0; i < bookings.length; i++) {
@@ -141,35 +140,44 @@ export function Booking() {
             setEatEarly(false);
             return;
           }
+        } else {
+          setEatEarly(true);
         }
       } else if(bookings[i].time === "18:00") {
         setEatEarly(true);
         console.log("FINNS 18");
+      } else {
+        setEatEarly(true);
       }
     }
   }
 
   const [ eatLate, setEatLate ] = useState(false);
-    function dinnerLate(){
-      for (let i = 0; i < bookings.length; i++) {
-        if(newBooking.date === bookings[i].date){
-          if(bookings[i].time === "21:00"){
-            lateDinner.push(bookings[i]);
-            if(lateDinner.length < 3) {
-              console.log("DET FINNS BORD KL 21");
-              setEatLate(true);
-            } else {
-              console.log("DET FINNS INTE BORD KL 21");
-              setEatLate(false);
-              return;
-            }
+  function dinnerLate(){
+    for (let i = 0; i < bookings.length; i++) {
+      if(newBooking.date === bookings[i].date){
+        if(bookings[i].time === "21:00"){
+          lateDinner.push(bookings[i]);
+          if(lateDinner.length < 3) {
+            console.log("DET FINNS BORD KL 21");
+            setEatLate(true);
+          } else {
+            console.log("DET FINNS INTE BORD KL 21");
+            setEatLate(false);
+            return;
           }
-        } else if(bookings[i].time === "21:00") {
+        } else {
           setEatLate(true);
-          console.log("FINNS 21");
         }
+      } else if(bookings[i].time === "21:00") {
+        setEatLate(true);
+        console.log("FINNS 21");
+      } else {
+        setEatLate(true);
       }
     }
+  }
+
   function cancel(){
     setBookingSite(true)
     setSearchBtnClicked(false)
@@ -216,13 +224,15 @@ export function Booking() {
           {error && <>Vänligen välj datum och antal personer</>}
 
           {searchBtnClicked && <>
-            <H3Bold>Vilken tid vill ni äta?</H3Bold>
-            <div>
-              <InputBtn type="button" value="18:00" name="time" onClick={handleClick}></InputBtn>
-              <InputBtn type="button" value="21:00" name="time" onClick={handleClick}></InputBtn>
-            </div>
-
-            <Button onClick={cancel} type="reset">Avbryt</Button>
+            {(!eatEarly && !eatLate) ? <>
+              <p>Tyvärr fullbokat, prova ett annat datum</p>
+              <Button onClick={cancel} type="reset">Tillbaka</Button></> : 
+              <><H3Bold>Vilken tid vill ni äta?</H3Bold>
+              <div>
+                {eatEarly && <InputBtn type="button" value="18:00" name="time" onClick={handleClick}></InputBtn>}
+                {eatLate && <InputBtn type="button" value="21:00" name="time" onClick={handleClick}></InputBtn>}
+              </div>
+              <Button onClick={cancel} type="reset">Avbryt</Button></>}
           </>}
 
           {searchTimeClicked && <>
