@@ -2,7 +2,7 @@
 import homeImg from '../../img/homePage.jpg'
 import { Section } from "../Styled/Section";
 import { FoodMenu } from "./foodMenu";
-import { H1, H1Logo } from "../Styled/Headings";
+import { H1Logo } from "../Styled/Headings";
 import { H2 } from "../Styled/Headings";
 import { Div, DivHome } from "../Styled/Div";
 import { PCenter } from "../Styled/P";
