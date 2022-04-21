@@ -24,7 +24,7 @@ export function Booking() {
     restaurantId: "624e9b46796a187bc28ceaef",
     date: "",
     time: "",
-    numberOfGuests: 0,
+    numberOfGuests: 1,
     customer: customer,
   });
 
@@ -84,7 +84,7 @@ export function Booking() {
   }
 
   function searchBtn() {
-    if(newBooking.date !== "" && newBooking.numberOfGuests >= 1){
+    if(newBooking.date !== "" && newBooking.numberOfGuests > 0){
       setBookingSite(false)
       setSearchBtnClicked(true)
       dinnerEarly()
