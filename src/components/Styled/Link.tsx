@@ -72,3 +72,9 @@ export const LinkAdmin = styled(Link)`
     color:white;
   }
 `
+export const LinkNotFound = styled(Link)`
+  color: #1F2D32;
+  &:hover {
+    color: #FECB4B;
+  }
+`
