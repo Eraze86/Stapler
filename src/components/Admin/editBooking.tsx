@@ -19,7 +19,7 @@ export const EditBooking = (props: IBookingProps) => {
     let name: string = e.target.name;
     let numberSelected = parseInt(e.target.value)
 
-    if(name !== "numberOfGuests"){
+    if(name != "numberOfGuests"){
       setBookingEdits({...bookingEdits, [name]: e.target.value})
     } else {
       setBookingEdits({...bookingEdits, numberOfGuests: numberSelected})
