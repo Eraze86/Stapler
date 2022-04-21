@@ -97,6 +97,7 @@ export function Booking() {
   let earlyDinner: Bookings[] = [];
   let lateDinner: Bookings[] = [];
   let totalGuests = 0;
+  let chairsLeft = 0;
 
   /*checkDinnerTime()
   function checkDinnerTime(){
@@ -132,10 +133,10 @@ export function Booking() {
           //Lägger in dessa bokningar i en ny array
           earlyDinner.push(bookings[i]);
           totalGuests += bookings[i].numberOfGuests;
-          console.log("G", totalGuests);
+          chairsLeft = 90 - totalGuests;
           
           //Om arrayen är mindre än 15 betyder det att det finns minst 1 bord ledigt den tiden
-          if(earlyDinner.length < 15 && totalGuests < 90) {
+          if(earlyDinner.length < 15 && (newBooking.numberOfGuests <= chairsLeft)) {
             console.log("DET FINNS BORD KL 18");
             setEatEarly(true);
           } else {
@@ -162,7 +163,8 @@ export function Booking() {
         if(bookings[i].time === "21:00"){
           lateDinner.push(bookings[i]);
           totalGuests += bookings[i].numberOfGuests;
-          if(lateDinner.length < 15 && totalGuests < 90) {
+          chairsLeft = 90 - totalGuests;
+          if(lateDinner.length < 15 && (newBooking.numberOfGuests <= chairsLeft)) {
             console.log("DET FINNS BORD KL 21");
             setEatLate(true);
           } else {
