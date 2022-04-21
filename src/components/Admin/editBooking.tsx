@@ -30,7 +30,9 @@ export const EditBooking = (props: IBookingProps) => {
     bookingService.updateBooking(props.booking._id, bookingEdits, props.booking.customerId);
   }
 
-  return(
+  return(<>
+      <p>{props.customer.name} {props.customer.lastname}</p>
+      <p>{props.customer.email} <br/> {props.customer.phone}</p>
       <Form>
         <label>Datum</label>
         <Input type="date" name="date" defaultValue={props.booking.date} onChange={handleCustomerChange}></Input>
@@ -44,5 +46,6 @@ export const EditBooking = (props: IBookingProps) => {
 
         <Button onClick={saveEdits}>Spara</Button>
       </Form>
+    </>
   )
 }

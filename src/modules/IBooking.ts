@@ -14,3 +14,8 @@ export interface ICustomer{
   email: string,
   phone: string
 }
+
+export interface IMatched{
+    booking: IBooking,
+    customer: ICustomer
+}

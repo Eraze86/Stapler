@@ -12,6 +12,11 @@ export const Li = styled.li`
   margin:0.2rem 5rem 0 0;
   box-sizing: border-box;
 
+  div{
+    display:flex;
+    column-gap:1rem;
+  }
+
   @media (max-width: 768px) {
     margin:1rem;
 }
