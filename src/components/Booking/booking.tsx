@@ -9,7 +9,7 @@ import { H1Booking, H3Bold } from "../Styled/Headings";
 import { Button } from "../Styled/Button";
 import { DivBooking } from "../Styled/Div";
 import { GuestSelect } from "../GuestSelect/GuestSelect";
-import { P } from "../Styled/P";
+
 
 export function Booking() {
   let bookingService = new BookingsService();

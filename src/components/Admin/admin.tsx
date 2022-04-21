@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { Bookings, Customer } from "../../modules/Bookings"
-import { IBooking, ICustomer, IMatched } from "../../modules/IBooking";
+import { IBooking, ICustomer } from "../../modules/IBooking";
 import { BookingsService } from "../services/BookingService";
 import { CustomerService } from "../services/CustomerService";
 import { Button, ButtonClose } from "../Styled/Button";
