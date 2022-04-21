@@ -22,7 +22,7 @@ export const Form = styled.form`
 
   @media (max-width: 768px) {
     width: 100%;
-    padding: 1rem 0rem;
+    padding: 0rem 0rem 2rem;
     margin: 0.5rem 0rem;
   }
 `
