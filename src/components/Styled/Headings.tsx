@@ -39,6 +39,13 @@ export const H1Booking = styled(H1)`
   margin-bottom: 0;
 `
 
+export const H1Error = styled.h1`
+  font-size: 12rem;
+  @media (max-width: 768px) {
+    font-size: 6rem;
+  }
+`
+
 export const H2 = styled.h2`
   font-family: 'Raleway';
   font-size: 2rem;

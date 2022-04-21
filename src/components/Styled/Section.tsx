@@ -72,3 +72,14 @@ export const SectionEditBooking = styled(Section)`
     }
   }
 `
+
+export const NotFoundSection = styled(Section)`
+  margin-top: 5rem;
+  padding: 0;
+  box-sizing: border-box;
+  top: 0;
+
+  @media (max-width: 768px) {
+    margin-top: 7rem;
+  }
+`
