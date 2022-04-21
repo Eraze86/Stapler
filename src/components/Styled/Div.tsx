@@ -40,8 +40,13 @@ export const DivAdmin = styled.div`
 
 export const DivBooking = styled.div`
   width:50%;
-  padding: 2rem;
+  padding: 1rem;
   box-sizing: border-box;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0rem 1rem;
+  
+  }
 `
 
 export const DivBlur = styled.div`
