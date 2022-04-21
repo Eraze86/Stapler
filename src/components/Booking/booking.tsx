@@ -5,7 +5,7 @@ import { BookingsService } from "../services/BookingService";
 import { BookingSection } from "../Styled/Section";
 import bookingImg from "../../img/bookingPage.jpg";
 import { Form, Input, InputBtn, Select } from "../Styled/Form";
-import { H1Booking, H3, H3Bold } from "../Styled/Headings";
+import { H1Booking, H3Bold } from "../Styled/Headings";
 import { Button } from "../Styled/Button";
 import { DivBooking } from "../Styled/Div";
 import { GuestSelect } from "../GuestSelect/GuestSelect";

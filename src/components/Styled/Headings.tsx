@@ -9,8 +9,6 @@ const fadeIn = keyframes`
 
 `
 
-
-
 export const H1 = styled.h1`
   @import url('https://fonts.googleapis.com/css2?family=Carattere&display=swap');
   color:white;
