@@ -124,64 +124,77 @@ export function Booking() {
 
   const [ eatEarly, setEatEarly ] = useState(false);
   function dinnerEarly(){
-    //Går igenom alla bokningar för restaurangen
-    for (let i = 0; i < bookings.length; i++) {
-      //Kollar om användarens datum matchar med någon/några av restaurangens bokningar
-      if(newBooking.date === bookings[i].date){
-        //Kollar hur många av dessa datum som har tiden 18:00
-        if(bookings[i].time === "18:00"){
-          //Lägger in dessa bokningar i en ny array
-          earlyDinner.push(bookings[i]);
-          totalGuests += bookings[i].numberOfGuests;
-          chairsLeft = 90 - totalGuests;
-          
-          //Om arrayen är mindre än 15 betyder det att det finns minst 1 bord ledigt den tiden
-          if(earlyDinner.length < 15 && (newBooking.numberOfGuests <= chairsLeft)) {
-            console.log("DET FINNS BORD KL 18");
-            setEatEarly(true);
+    console.log(bookings.length);
+    if(bookings.length !== 0){
+      //Går igenom alla bokningar för restaurangen
+      for (let i = 0; i < bookings.length; i++) {
+        console.log("HEJ");
+        //Kollar om användarens datum matchar med någon/några av restaurangens bokningar
+        if(newBooking.date === bookings[i].date){
+          //Kollar hur många av dessa datum som har tiden 18:00
+          if(bookings[i].time === "18:00"){
+            //Lägger in dessa bokningar i en ny array
+            earlyDinner.push(bookings[i]);
+            totalGuests += bookings[i].numberOfGuests;
+            chairsLeft = 90 - totalGuests;
+            
+            //Om arrayen är mindre än 15 betyder det att det finns minst 1 bord ledigt den tiden
+            if(earlyDinner.length < 15 && (newBooking.numberOfGuests <= chairsLeft)) {
+              console.log("DET FINNS BORD KL 18");
+              setEatEarly(true);
+            } else {
+              console.log("DET FINNS INTE BORD KL 18");
+              setEatEarly(false);
+              return;
+            }
           } else {
-            console.log("DET FINNS INTE BORD KL 18");
-            setEatEarly(false);
-            return;
+            setEatEarly(true);
           }
+        } else if(bookings[i].time === "18:00") {
+          setEatEarly(true);
+          console.log("FINNS 18");
         } else {
           setEatEarly(true);
         }
-      } else if(bookings[i].time === "18:00") {
-        setEatEarly(true);
-        console.log("FINNS 18");
-      } else {
-        setEatEarly(true);
       }
+    } else {
+      setEatEarly(true);
+      setEatLate(true);
     }
   }
 
   const [ eatLate, setEatLate ] = useState(false);
   function dinnerLate(){
-    for (let i = 0; i < bookings.length; i++) {
-      if(newBooking.date === bookings[i].date){
-        if(bookings[i].time === "21:00"){
-          lateDinner.push(bookings[i]);
-          totalGuests += bookings[i].numberOfGuests;
-          chairsLeft = 90 - totalGuests;
-          if(lateDinner.length < 15 && (newBooking.numberOfGuests <= chairsLeft)) {
-            console.log("DET FINNS BORD KL 21");
-            setEatLate(true);
+    if(bookings.length !== 0){
+      for (let i = 0; i < bookings.length; i++) {
+        if(newBooking.date === bookings[i].date){
+          if(bookings[i].time === "21:00"){
+            lateDinner.push(bookings[i]);
+            totalGuests += bookings[i].numberOfGuests;
+            chairsLeft = 90 - totalGuests;
+            if(lateDinner.length < 15 && (newBooking.numberOfGuests <= chairsLeft)) {
+              console.log("DET FINNS BORD KL 21");
+              setEatLate(true);
+            } else {
+              console.log("DET FINNS INTE BORD KL 21");
+              setEatLate(false);
+              return;
+            }
           } else {
-            console.log("DET FINNS INTE BORD KL 21");
-            setEatLate(false);
-            return;
+            setEatLate(true);
           }
+        } else if(bookings[i].time === "21:00") {
+          setEatLate(true);
+          console.log("FINNS 21");
         } else {
           setEatLate(true);
         }
-      } else if(bookings[i].time === "21:00") {
-        setEatLate(true);
-        console.log("FINNS 21");
-      } else {
-        setEatLate(true);
       }
+    } else {
+      setEatEarly(true);
+      setEatLate(true);
     }
+    
   }
 
   function cancel(){
