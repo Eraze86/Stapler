@@ -9,7 +9,6 @@ import { H1Booking, H3Bold } from "../Styled/Headings";
 import { Button } from "../Styled/Button";
 import { DivBooking } from "../Styled/Div";
 import { GuestSelect } from "../GuestSelect/GuestSelect";
-import { P } from "../Styled/P";
 
 export function Booking() {
   let bookingService = new BookingsService();
@@ -97,6 +96,7 @@ export function Booking() {
 
   let earlyDinner: Bookings[] = [];
   let lateDinner: Bookings[] = [];
+  let totalGuests = 0;
 
   /*checkDinnerTime()
   function checkDinnerTime(){
@@ -131,9 +131,11 @@ export function Booking() {
         if(bookings[i].time === "18:00"){
           //Lägger in dessa bokningar i en ny array
           earlyDinner.push(bookings[i]);
-
+          totalGuests += bookings[i].numberOfGuests;
+          console.log("G", totalGuests);
+          
           //Om arrayen är mindre än 15 betyder det att det finns minst 1 bord ledigt den tiden
-          if(earlyDinner.length < 3) {
+          if(earlyDinner.length < 15 && totalGuests < 90) {
             console.log("DET FINNS BORD KL 18");
             setEatEarly(true);
           } else {
@@ -159,7 +161,8 @@ export function Booking() {
       if(newBooking.date === bookings[i].date){
         if(bookings[i].time === "21:00"){
           lateDinner.push(bookings[i]);
-          if(lateDinner.length < 3) {
+          totalGuests += bookings[i].numberOfGuests;
+          if(lateDinner.length < 15 && totalGuests < 90) {
             console.log("DET FINNS BORD KL 21");
             setEatLate(true);
           } else {
