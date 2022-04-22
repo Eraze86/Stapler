@@ -12,6 +12,15 @@ export const Button = styled.button`
   min-width: 50%;
   margin: 1.2rem auto 0rem;
 
+  &:disabled{
+    background-color: #4c5b61;
+    cursor:not-allowed;
+
+    &:hover{
+      background-color:#4c5b61;
+    }
+  }
+
   &:hover{
     background-color: #31454d;
   }

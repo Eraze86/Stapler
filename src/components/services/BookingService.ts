@@ -60,6 +60,7 @@ export class BookingsService{
     tablesTaken = 0;
     totalTables = 15;
     neededTables = 0;
+    customersBooked = 0;
     //Räknar ut om det finns bord tillgängliga baserat på användarens val
     countGuests(bookings: Bookings[], guests: number): boolean{
         bookings.forEach((booking) => {
@@ -113,5 +114,15 @@ export class BookingsService{
         this.dinnerTime.late = this.countGuests(lateOnDate, guests);
 
         return this.dinnerTime
+    }
+
+    checkCustomers(bookings: Bookings[], date: string){
+        let guests = bookings
+        .filter(book => { return book.date === date })
+        .map((booking) => {
+            return booking.numberOfGuests
+        })
+
+        return guests.reduce((a, b) => a + b, 0)
     }
 }

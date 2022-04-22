@@ -17,6 +17,8 @@ export const EditBooking = (props: IBookingProps) => {
     props.booking.numberOfGuests,
   )
 
+  const [totalGuests, setTotalGuests] = useState<number>(0);
+  const [disabledButton, setDisabledButton] = useState(false)
   const [bookingEdits, setBookingEdits] = useState<BookingChanges>(standardProps);
 
   const [dinnerTime, setDinnerTime] = useState<IDinnerTime>({
@@ -27,6 +29,26 @@ export const EditBooking = (props: IBookingProps) => {
   useEffect(() => {
     let dinner = bookingService.checkTables(props.earlyBookings, props.lateBookings, bookingEdits.date, bookingEdits.numberOfGuests)
     setDinnerTime({...dinnerTime, early: dinner.early, late: dinner.late})
+
+  },[bookingEdits])
+
+  useEffect(() => {
+    if(bookingEdits.time === "18:00"){
+      let early = bookingService.checkCustomers(props.earlyBookings, bookingEdits.date)
+      setTotalGuests(early)
+    } else{
+      let late = bookingService.checkCustomers(props.lateBookings, bookingEdits.date)
+      setTotalGuests(late)
+    }
+  }, [bookingEdits])
+
+  useEffect(() => {
+    let chairsLeft = 90 - totalGuests;
+    if(bookingEdits.numberOfGuests > chairsLeft){
+      setDisabledButton(true)
+    } else {
+      setDisabledButton(false)
+    }
   },[bookingEdits])
 
   //Hämtar värden på input som användaren väljer
@@ -59,7 +81,7 @@ export const EditBooking = (props: IBookingProps) => {
           <DinnerTime early={dinnerTime.early} late={dinnerTime.late}/>
         </div>
 
-        <Button onClick={saveEdits}>Spara</Button>
+        <Button onClick={saveEdits} disabled={disabledButton}>Spara</Button>
       </FormAdmin>
     </>
   )
