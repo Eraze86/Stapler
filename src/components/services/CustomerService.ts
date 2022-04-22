@@ -5,10 +5,11 @@ import { INewCustomer } from "../../modules/INewBooking"
 const apiUrl = "https://school-restaurant-api.azurewebsites.net";
 
 export class CustomerService{
+  //hämta costumerId
     async getCustomer(customerId: string){
       let response = await axios.get<ICustomer>(`${apiUrl}/customer/${customerId}`)
       let customer = response.data
-
+      
     return customer
     }
 

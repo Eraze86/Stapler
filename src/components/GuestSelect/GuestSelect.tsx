@@ -2,7 +2,7 @@
 export const GuestSelect = () => {
   let minGuests = 0;
   let list: number[] = []
-
+//Antal gäster , max 90 gäster per tid
   while (minGuests<90){
     minGuests += 1;
     list.push(minGuests)

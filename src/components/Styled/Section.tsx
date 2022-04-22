@@ -67,7 +67,8 @@ export const SectionEditBooking = styled(Section)`
   width: 40vw;
 
   @media (max-width: 768px) {
-    margin-top: 7rem;
+    margin-top: 0rem;
+    width: 90%;
     img{
       max-width: 100%;
       height: 8rem;
