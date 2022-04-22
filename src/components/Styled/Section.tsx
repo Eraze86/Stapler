@@ -49,6 +49,14 @@ export const BookingSection = styled(Section)`
   img{
     max-width: 50%;
   }
+
+  div.confirmed{
+    padding-top: 2rem;
+    flex-direction: column;
+    font-size: 1.4rem;
+    gap: 2rem;
+  }
+
   @media (max-width: 768px) {
     margin-top: 7rem;
     img{

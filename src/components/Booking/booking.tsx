@@ -12,6 +12,8 @@ import { GuestSelect } from "../GuestSelect/GuestSelect";
 import { CustomerService } from "../services/CustomerService";
 import { DinnerTime } from "../DinnerTime/DinnerTime";
 import { IDinnerTime } from "../../modules/IDinnerTime";
+import { BookBtn } from "../BookBtn/BookBtn";
+import { LinkSmallBookBtn } from "../Styled/Link";
 
 export function Booking() {
   let bookingService = new BookingsService();
@@ -199,10 +201,13 @@ export function Booking() {
 
           {gprdCheckBox &&  <>
             <H3Bold>Godkänner du GDPR?</H3Bold>
-            <input type ="checkbox"></input>
+            <Input type="checkbox" className="checkbox"></Input>
             <Button onClick={reserve}>Godkänn</Button>
           </>}
-          {bookingConfirmed && <div>Bokning genomförd</div>}
+          {bookingConfirmed && <div className="confirmed">
+            Bokning genomförd
+            <Button>Ny bokning</Button>
+          </div>}
           </Form>
         </DivBooking>
       </BookingSection>

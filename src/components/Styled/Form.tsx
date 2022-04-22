@@ -37,9 +37,8 @@ export const FormAdmin = styled(Form)`
   }
   @media (max-width: 768px) {
       padding: 0 2rem 1.5rem;
-
   }
-  
+
 `
 
 export const Input = styled.input`
