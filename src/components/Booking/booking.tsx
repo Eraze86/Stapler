@@ -4,14 +4,18 @@ import { INewBooking, INewCustomer } from "../../modules/INewBooking";
 import { BookingsService } from "../services/BookingService";
 import { BookingSection } from "../Styled/Section";
 import bookingImg from "../../img/bookingPage.jpg";
-import { Form, Input, InputBtn, Select } from "../Styled/Form";
+import { Form, Input, Select } from "../Styled/Form";
 import { H1Booking, H3Bold } from "../Styled/Headings";
 import { Button } from "../Styled/Button";
 import { DivBooking } from "../Styled/Div";
 import { GuestSelect } from "../GuestSelect/GuestSelect";
+import { CustomerService } from "../services/CustomerService";
+import { DinnerTime } from "../DinnerTime/DinnerTime";
+import { IDinnerTime } from "../../modules/IDinnerTime";
 
 export function Booking() {
   let bookingService = new BookingsService();
+  let customerService = new CustomerService();
 
   const [customer, setCustomer] = useState<INewCustomer>({
     name: "",
@@ -77,124 +81,29 @@ export function Booking() {
     setSearchTimeClicked(true)
     setSearchBtnClicked(false);
   }
+
   // hämtar kundens information och spara i costumer
   function handlecostumer(e: ChangeEvent<HTMLInputElement>) {
     let name = e.target.name
     setCustomer({ ...customer, [name]: e.target.value })
   }
 
+  const [ dinnerTime, setDinnerTime ] = useState<IDinnerTime>({
+    early: false,
+    late: false,
+  });
+
   function searchBtn() {
     if(newBooking.date !== "" && newBooking.numberOfGuests > 0){
       setBookingSite(false)
       setSearchBtnClicked(true)
-      dinnerEarly()
-      dinnerLate()
+      let earlyDinner = bookingService.dinnerEarly(bookings, newBooking.date, newBooking.numberOfGuests);
+      let lateDinner = bookingService.dinnerLate(bookings, newBooking.date, newBooking.numberOfGuests)
+      setDinnerTime({...dinnerTime, early: earlyDinner, late: lateDinner})
+
     } else {
       setError(true)
     }
-  }
-
-  let earlyDinner: Bookings[] = [];
-  let lateDinner: Bookings[] = [];
-  let totalGuests = 0;
-  let chairsLeft = 0;
-
-  /*checkDinnerTime()
-  function checkDinnerTime(){
-    let bookedOnDate = bookings.filter((booking) => {
-      if(newBooking.date === booking.date)
-      return booking
-    });
-
-    bookedOnDate.forEach((booking) => {
-      if(booking.time === "18:00"){
-        earlyDinner.push(booking)
-      } else {
-        lateDinner.push(booking)
-      }
-    });
-
-    if(earlyDinner.length < 15){
-      setEatEarly(true)
-    }
-    if(lateDinner.length < 15){
-      setEatLate(true)
-    }
-  }*/
-
-  const [ eatEarly, setEatEarly ] = useState(false);
-  function dinnerEarly(){
-    console.log(bookings.length);
-    if(bookings.length !== 0){
-      //Går igenom alla bokningar för restaurangen
-      for (let i = 0; i < bookings.length; i++) {
-        console.log("HEJ");
-        //Kollar om användarens datum matchar med någon/några av restaurangens bokningar
-        if(newBooking.date === bookings[i].date){
-          //Kollar hur många av dessa datum som har tiden 18:00
-          if(bookings[i].time === "18:00"){
-            //Lägger in dessa bokningar i en ny array
-            earlyDinner.push(bookings[i]);
-            totalGuests += bookings[i].numberOfGuests;
-            chairsLeft = 90 - totalGuests;
-            
-            //Om arrayen är mindre än 15 betyder det att det finns minst 1 bord ledigt den tiden
-            if(earlyDinner.length < 15 && (newBooking.numberOfGuests <= chairsLeft)) {
-              console.log("DET FINNS BORD KL 18");
-              setEatEarly(true);
-            } else {
-              console.log("DET FINNS INTE BORD KL 18");
-              setEatEarly(false);
-              return;
-            }
-          } else {
-            setEatEarly(true);
-          }
-        } else if(bookings[i].time === "18:00") {
-          setEatEarly(true);
-          console.log("FINNS 18");
-        } else {
-          setEatEarly(true);
-        }
-      }
-    } else {
-      setEatEarly(true);
-      setEatLate(true);
-    }
-  }
-
-  const [ eatLate, setEatLate ] = useState(false);
-  function dinnerLate(){
-    if(bookings.length !== 0){
-      for (let i = 0; i < bookings.length; i++) {
-        if(newBooking.date === bookings[i].date){
-          if(bookings[i].time === "21:00"){
-            lateDinner.push(bookings[i]);
-            totalGuests += bookings[i].numberOfGuests;
-            chairsLeft = 90 - totalGuests;
-            if(lateDinner.length < 15 && (newBooking.numberOfGuests <= chairsLeft)) {
-              console.log("DET FINNS BORD KL 21");
-              setEatLate(true);
-            } else {
-              console.log("DET FINNS INTE BORD KL 21");
-              setEatLate(false);
-              return;
-            }
-          } else {
-            setEatLate(true);
-          }
-        } else if(bookings[i].time === "21:00") {
-          setEatLate(true);
-          console.log("FINNS 21");
-        } else {
-          setEatLate(true);
-        }
-      }
-    } else {
-      setEatEarly(true);
-      setEatLate(true);
-    }
-    
   }
 
   function cancel(){
@@ -205,7 +114,6 @@ export function Booking() {
   }
 
   function checkGprd() {
-    console.log(customer);
     if(customer.name === "" || customer.lastname === "" || customer.email === "" || customer.phone === ""){
       setFormError(true);
       setSearchTimeClicked(true);
@@ -219,7 +127,7 @@ export function Booking() {
   function reserve(){
     setGprdCheckBox(false)
     setBookingConfirmed(true)
-    bookingService.createCustomer(customer)
+    customerService.createCustomer(customer)
     bookingService.createBooking(newBooking)
   }
 
@@ -243,13 +151,12 @@ export function Booking() {
           {error && <>Vänligen välj datum och antal personer</>}
 
           {searchBtnClicked && <>
-            {(!eatEarly && !eatLate) ? <>
+            {(!dinnerTime.early && !dinnerTime.late) ? <>
               <p>Tyvärr fullbokat, prova ett annat datum</p>
-              <Button onClick={cancel} type="reset">Tillbaka</Button></> : 
+              <Button onClick={cancel} type="reset">Tillbaka</Button></> :
               <><H3Bold>Vilken tid vill ni äta?</H3Bold>
-              <div>
-                {eatEarly && <InputBtn type="button" value="18:00" name="time" onClick={handleClick}></InputBtn>}
-                {eatLate && <InputBtn type="button" value="21:00" name="time" onClick={handleClick}></InputBtn>}
+              <div onClick={handleClick}>
+                <DinnerTime early={dinnerTime.early} late={dinnerTime.late}/>
               </div>
               <Button onClick={cancel} type="reset">Avbryt</Button></>}
           </>}
@@ -265,7 +172,7 @@ export function Booking() {
             <label>Telefon</label>
             <Input type="text" name="phone" value={customer.phone} onChange={handlecostumer} placeholder="070-343 43 43"></Input>
             {formError && <p>Vänligen fyll i samtliga uppgifter</p>}
-            
+
             <Button onClick={checkGprd} type="button">Reservera</Button>
             <Button onClick={cancel} type="reset">Avbryt</Button>
           </>}

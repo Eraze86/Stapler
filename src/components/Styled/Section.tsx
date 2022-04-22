@@ -36,6 +36,11 @@ export const Section = styled.section`
   }
 `
 
+export const SectionAdmin = styled(Section)`
+
+
+`
+
 export const BookingSection = styled(Section)`
   margin-top: 5rem;
   padding: 0;
@@ -57,11 +62,10 @@ export const BookingSection = styled(Section)`
 
 export const SectionEditBooking = styled(Section)`
   box-sizing: border-box;
-  top: 0;
-  position: relative;
+  position: fixed;
   flex-direction: column;
-  margin:5rem 20rem;
-  backdrop-filter: blur;
+  top: 15vh;
+  width: 40vw;
 
   @media (max-width: 768px) {
     margin-top: 7rem;
