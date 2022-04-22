@@ -53,7 +53,6 @@ export function Admin(){
             setBookings(response)
         })
         .catch(error => {console.log("ERROR:", error)})
-
     },[])
 
     //Hämtar kunder baserat på restaurangens ordrars customerIds
@@ -67,6 +66,7 @@ export function Admin(){
             .catch(error => {console.log("ERROR:", error)})
         })
     }, [bookings])
+
 
     //Funktion som körs när man klickar på ändra en order.
     function editButtonClick(clickedBooking: Bookings){
@@ -114,6 +114,7 @@ export function Admin(){
             </Li>
         )
     });
+
 
     //Stänger redigerings-box
     function closeEditSection(){

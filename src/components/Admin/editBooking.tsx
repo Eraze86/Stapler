@@ -24,11 +24,12 @@ export const EditBooking = (props: IBookingProps) => {
     late: false,
   });
 
+  //Hämtar värden på input som användaren väljer
   function handleCustomerChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>){
     let name: string = e.target.name;
     let numberSelected = parseInt(e.target.value)
 
-    if(name != "numberOfGuests"){
+    if(name !== "numberOfGuests"){
       setBookingEdits({...bookingEdits, [name]: e.target.value})
     } else {
       setBookingEdits({...bookingEdits, numberOfGuests: numberSelected})
@@ -42,7 +43,7 @@ export const EditBooking = (props: IBookingProps) => {
 
   }, [bookingEdits, bookingEdits.numberOfGuests])
 
-
+  //Uppdaterar bokningen med funktionen updateBooking i tjänsten bookingService
   function saveEdits(e: MouseEvent<HTMLButtonElement>){
     bookingService.updateBooking(props.booking._id, bookingEdits, props.booking.customerId);
   }
