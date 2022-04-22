@@ -69,12 +69,14 @@ export class BookingsService{
             //Räknar ut hur många bord en bokning håller
             if(booking.numberOfGuests > 6){
                 let table = Math.ceil(booking.numberOfGuests / 6)
-                this.tablesTaken += table
+                this.tablesTaken = table
+                console.log(table);
+
             }
         })
         let tablesLeft = this.totalTables - this.tablesTaken;
 
-        if(bookings.length >= 0){
+        if(bookings.length === 0){
             return true
         }
 
