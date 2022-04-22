@@ -18,7 +18,7 @@ export const Section = styled.section`
     width:65%;
     text-align: left;
     padding-left: 3rem;
-    padding-right: 1.5rem;
+    padding-right: 4rem;
     box-sizing: border-box;
   }
 
@@ -28,8 +28,8 @@ export const Section = styled.section`
     padding: 0.6rem;
     flex-direction: column;
     section{
-      padding-left: 0rem;
-      padding-right: 0rem;
+      padding-left: 0.5rem;
+      padding-right: 0.5em;
       width:100%;
 
     }
@@ -37,8 +37,7 @@ export const Section = styled.section`
 `
 
 export const SectionAdmin = styled(Section)`
-
-
+  max-width:100vw;
 `
 
 export const BookingSection = styled(Section)`

@@ -4,12 +4,12 @@ import { IBooking, ICustomer } from "../../modules/IBooking";
 import { IDinnerTime } from "../../modules/IDinnerTime";
 import { BookingsService } from "../services/BookingService";
 import { CustomerService } from "../services/CustomerService";
-import { Button, ButtonAdmin, ButtonClose } from "../Styled/Button";
+import { ButtonAdmin, ButtonClose } from "../Styled/Button";
 import { DivAdmin, DivBlur, DivBlurParent } from "../Styled/Div";
 import { H1Booking, H3 } from "../Styled/Headings";
 import { P, PId } from "../Styled/P";
 import { SectionAdmin, SectionEditBooking } from "../Styled/Section";
-import { Li, UlAdmin } from "../Styled/Ul";
+import { Li, Ul, UlAdmin, UlAdminHeadings } from "../Styled/Ul";
 import { EditBooking } from "./editBooking";
 
 export function Admin(){
@@ -68,6 +68,7 @@ export function Admin(){
         })
     }, [bookings])
 
+    //Funktion som körs när man klickar på ändra en order.
     function editButtonClick(clickedBooking: Bookings){
         setEditorOpen(true)
         setBookingToChange(clickedBooking)
@@ -76,6 +77,7 @@ export function Admin(){
         setDinnerTime({...dinnerTime, early: earlyDinner, late: lateDinner})
     }
 
+    //Sparar kund som är kopplad till order som ska ändras
     useEffect(() => {
         customers.find((customer) => {
             if(customer._id === bookingToChange.customerId){
@@ -94,21 +96,26 @@ export function Admin(){
                 }}
             )
 
-            return (<Li key={booking._id}>
-                <PId>ID: {booking._id}</PId>
-                <H3>{customer?.name} {customer?.lastname}</H3>
-                <P>Datum: {booking.date}</P>
-                <P>Tid: {booking.time}</P>
-                <P>Antal gäster: {booking.numberOfGuests}</P>
-                <div>
-                    <ButtonAdmin onClick={() => bookingService.deleteBooking(booking._id)}>Avboka</ButtonAdmin>
-                    <ButtonAdmin onClick={() => {editButtonClick(booking)}}>Ändra</ButtonAdmin>
-                </div>
+            let bookingDate = new Date(booking.date).toLocaleDateString('Sv-SE', { weekday: "short", month: "short", day: "numeric" })
+
+            return (
+            <Li key={booking._id}>
+                <UlAdmin>
+                    <li>{booking._id}</li>
+                    <li>{customer?.lastname}, {customer?.name}</li>
+                    <li>{ bookingDate }</li>
+                    <li>{booking.time}</li>
+                    <li>{booking.numberOfGuests}</li>
+                    <li><div>
+                        <ButtonAdmin onClick={() => bookingService.deleteBooking(booking._id)}>Avboka</ButtonAdmin>
+                        <ButtonAdmin onClick={() => {editButtonClick(booking)}}>Ändra</ButtonAdmin>
+                    </div></li>
+                </UlAdmin>
             </Li>
         )
     });
 
-
+    //Stänger redigerings-box
     function closeEditSection(){
         setEditorOpen(false)
         setCustomerToChange(standardCToChange)
@@ -120,7 +127,14 @@ export function Admin(){
         <H1Booking>Bokningar</H1Booking>
         </DivAdmin>
         <SectionAdmin>
-            {bookings.length > 0 ? <UlAdmin>{lis}</UlAdmin> : <P>Det finns tyvärr inga bokningar..</P>}
+            <UlAdminHeadings>
+                <li>BokningsId</li>
+                <li>Efternamn, Förnamn</li>
+                <li>Datum</li>
+                <li>Tid</li>
+                <li>Antal</li>
+            </UlAdminHeadings>
+            {bookings.length > 0 ? <Ul>{lis}</Ul> : <P>Det finns tyvärr inga bokningar..</P>}
         </SectionAdmin>
 
         {editorOpen &&
