@@ -6,7 +6,7 @@ import { INewBooking } from "../../modules/INewBooking";
 const apiUrl = "https://school-restaurant-api.azurewebsites.net";
 
 export class BookingsService{
-    //Hämta bokningar
+    //Funktion för att hämta bokningar från API med vårt restaurang ID
     async getBookings(){
         let response = await axios.get<Bookings[]>(`${apiUrl}/booking/restaurant/624e9b46796a187bc28ceaef`)
         let bookingList = response.data.map((booking: Bookings) => {
@@ -72,16 +72,16 @@ export class BookingsService{
                     if(bookings[i].time === "18:00"){
                         //Lägger in dessa bokningar i en ny array
                         this.earlyDinner.push(bookings[i]);
+                        //Adderar numberOfGuests för bokningarna till totalGuests
                         this.totalGuests += bookings[i].numberOfGuests;
+                        //Finns totalt 90 platser (15 x 6), kollar hur många platser som finns kvar
                         this.chairsLeft = 90 - this.totalGuests;
 
-                        //Om arrayen är mindre än 15 betyder det att det finns minst 1 bord ledigt den tiden
+                        //Om det finns platser kvar
                         if(this.earlyDinner.length < 15 && (newNumber <= this.chairsLeft)) {
                             return true
-
                         } else {
                             console.log("finns ej");
-
                             return false
                         }
                     } else {
@@ -97,6 +97,7 @@ export class BookingsService{
         return true
     }
 
+    //Samma som dinnerEarly fast kl 21:00
     dinnerLate(bookings: Bookings[], newDate: string, newNumber: number):boolean{
         if(bookings.length !== 0){
             for (let i = 0; i < bookings.length; i++) {

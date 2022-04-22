@@ -1,4 +1,3 @@
-
 import { LinkAdmin, LinkSmallBookBtn } from "../Styled/Link"
 import { StyledFooter } from "../Styled/Footer"
 import { H2 } from "../Styled/Headings"

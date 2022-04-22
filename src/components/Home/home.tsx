@@ -1,4 +1,3 @@
-
 import homeImg from '../../img/homePage.jpg'
 import { Section } from "../Styled/Section";
 import { FoodMenu } from "./foodMenu";
@@ -11,7 +10,6 @@ import { LinkBookBtnHome } from '../Styled/Link';
 
 export function Home(){
     return (<>
-
         <Div>
             <Img src={ homeImg } alt="Tables at restaurant. Credit: Carlos Aranda"/>
             <H1Logo>Stapler</H1Logo>

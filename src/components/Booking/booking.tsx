@@ -33,7 +33,6 @@ export function Booking() {
   });
 
   const [bookings, setBookings] = useState<Bookings[]>([]);
-
   const [searchTimeClicked, setSearchTimeClicked] = useState(false);
   const [bookingSite, setBookingSite] = useState(false);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
@@ -41,7 +40,7 @@ export function Booking() {
   const [error, setError] = useState(false);
   const [formError, setFormError ] = useState(false);
 
-  //hämta befintlig bokingsinformation
+  //hämtar restaurangens bokningar med funktionen getBookings i tjänsten bookingService 
   useEffect(() => {
     bookingService.getBookings().then((bookings) => {
       let data = bookings.map((booking: Bookings) => {
@@ -54,12 +53,13 @@ export function Booking() {
           booking.customerId
         );
       });
+      //Lägger in bokningarna i bookings (om det finns några)
       setBookings(data)
       setBookingSite(true)
     })
   }, []);
 
-  // hämtar kundens valda datum och tid och sparar om i newBooking
+  // hämtar kundens valda datum och tid från input och sparar i newBooking
   function handleChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     let name: string = e.target.name;
     let numberSelected = parseInt(e.target.value);
@@ -72,9 +72,9 @@ export function Booking() {
     setError(false);
   }
 
-  //hämtar tiden och lägger in i newBookings
   const [searchBtnClicked, setSearchBtnClicked] = useState(false);
 
+  //hämtar vilken tid användaren valt och lägger in i newBooking
   function handleClick(e: any) {
     let name: string = e.target.name
     setNewBooking({ ...newBooking, [name]: e.target.value })
@@ -82,8 +82,8 @@ export function Booking() {
     setSearchBtnClicked(false);
   }
 
-  // hämtar kundens information och spara i costumer
-  function handlecostumer(e: ChangeEvent<HTMLInputElement>) {
+  //hämtar kundinformation från input och lägger in i customer
+  function handleCustomer(e: ChangeEvent<HTMLInputElement>) {
     let name = e.target.name
     setCustomer({ ...customer, [name]: e.target.value })
   }
@@ -93,19 +93,23 @@ export function Booking() {
     late: false,
   });
 
+  //När man trycker på sök
   function searchBtn() {
+    //kollar så att datum och antal gäster är ifyllt
     if(newBooking.date !== "" && newBooking.numberOfGuests > 0){
       setBookingSite(false)
       setSearchBtnClicked(true)
+      //Kör funktionerna dinnerEarly och dinnerLate som finns i tjänsten bookingService
+      //för att se om det finns platser ledigt
       let earlyDinner = bookingService.dinnerEarly(bookings, newBooking.date, newBooking.numberOfGuests);
       let lateDinner = bookingService.dinnerLate(bookings, newBooking.date, newBooking.numberOfGuests)
       setDinnerTime({...dinnerTime, early: earlyDinner, late: lateDinner})
-
     } else {
       setError(true)
     }
   }
 
+  //Funktion om man trycker på avbryt, kommer tillbaka till första bokningssidan
   function cancel(){
     setBookingSite(true)
     setSearchBtnClicked(false)
@@ -113,7 +117,9 @@ export function Booking() {
     setSearchTimeClicked(false)
   }
 
+  //Funktion för att kunna godkänna GDPR
   function checkGprd() {
+    //Kollar så att alla uppgifter är ifyllda, är dom inte det så kommer man inte till gdpr
     if(customer.name === "" || customer.lastname === "" || customer.email === "" || customer.phone === ""){
       setFormError(true);
       setSearchTimeClicked(true);
@@ -124,6 +130,9 @@ export function Booking() {
     }
   }
 
+  /*Funktion för att göra en bokning, använder funktionen createBooking i 
+  tjänsten bookingService där man skickar bokningen till API
+  och skapar även en kund på samma sätt*/
   function reserve(){
     setGprdCheckBox(false)
     setBookingConfirmed(true)
@@ -164,13 +173,13 @@ export function Booking() {
           {searchTimeClicked && <>
             <H3Bold>Ange kontaktuppgifter</H3Bold>
             <label>Förnamn</label>
-            <Input type="text" name="name" value={customer.name} onChange={handlecostumer} placeholder="John"></Input>
+            <Input type="text" name="name" value={customer.name} onChange={handleCustomer} placeholder="John"></Input>
             <label>Efternamn</label>
-            <Input type="text" name="lastname" value={customer.lastname} onChange={handlecostumer} placeholder="Doe"></Input>
+            <Input type="text" name="lastname" value={customer.lastname} onChange={handleCustomer} placeholder="Doe"></Input>
             <label>E-mail</label>
-            <Input type="text" name="email" value={customer.email} onChange={handlecostumer} placeholder="john.doe@email.com"></Input>
+            <Input type="text" name="email" value={customer.email} onChange={handleCustomer} placeholder="john.doe@email.com"></Input>
             <label>Telefon</label>
-            <Input type="text" name="phone" value={customer.phone} onChange={handlecostumer} placeholder="070-343 43 43"></Input>
+            <Input type="text" name="phone" value={customer.phone} onChange={handleCustomer} placeholder="070-343 43 43"></Input>
             {formError && <p>Vänligen fyll i samtliga uppgifter</p>}
 
             <Button onClick={checkGprd} type="button">Reservera</Button>

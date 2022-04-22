@@ -4,7 +4,7 @@ import { IBooking, ICustomer } from "../../modules/IBooking";
 import { IDinnerTime } from "../../modules/IDinnerTime";
 import { BookingsService } from "../services/BookingService";
 import { CustomerService } from "../services/CustomerService";
-import { Button, ButtonAdmin, ButtonClose } from "../Styled/Button";
+import { ButtonAdmin, ButtonClose } from "../Styled/Button";
 import { DivAdmin, DivBlur, DivBlurParent } from "../Styled/Div";
 import { H1Booking, H3 } from "../Styled/Headings";
 import { P, PId } from "../Styled/P";
@@ -53,7 +53,6 @@ export function Admin(){
             setBookings(response)
         })
         .catch(error => {console.log("ERROR:", error)})
-
     },[])
 
     //Hämtar kunder baserat på restaurangens ordrars customerIds
@@ -68,6 +67,7 @@ export function Admin(){
         })
     }, [bookings])
 
+    //När man trycker på knappen Ändra
     function editButtonClick(clickedBooking: Bookings){
         setEditorOpen(true)
         setBookingToChange(clickedBooking)
@@ -107,7 +107,6 @@ export function Admin(){
             </Li>
         )
     });
-
 
     function closeEditSection(){
         setEditorOpen(false)
