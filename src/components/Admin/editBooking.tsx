@@ -30,15 +30,14 @@ export const EditBooking = (props: IBookingProps) => {
   },[bookingEdits])
 
   //Hämtar värden på input som användaren väljer
-  function handleCustomerChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>){
+  function handleCustomerChange(e: ChangeEvent<HTMLInputElement>){
     let name: string = e.target.name;
-    let numberSelected = parseInt(e.target.value)
+    setBookingEdits({...bookingEdits, [name]: e.target.value})
+  }
 
-    if(name !== "numberOfGuests"){
-      setBookingEdits({...bookingEdits, [name]: e.target.value})
-    } else {
-      setBookingEdits({...bookingEdits, numberOfGuests: numberSelected})
-    }
+  function handleSelect(e: ChangeEvent<HTMLSelectElement>){
+    let numberSelected = parseInt(e.target.value)
+    setBookingEdits({...bookingEdits, numberOfGuests: numberSelected})
   }
 
   //Uppdaterar bokningen med funktionen updateBooking i tjänsten bookingService
@@ -53,7 +52,7 @@ export const EditBooking = (props: IBookingProps) => {
         <label>Datum</label>
         <Input type="date" name="date" defaultValue={props.booking.date} onChange={handleCustomerChange}></Input>
         <label>Storlek på sällskap</label>
-        <Select name="numberOfGuests" onChange={handleCustomerChange} value={bookingEdits.numberOfGuests}><GuestSelect/></Select>
+        <Select name="numberOfGuests" onChange={handleSelect} value={bookingEdits.numberOfGuests}><GuestSelect/></Select>
 
         <label>Tid</label>
         <div onClick={(e: any) => setBookingEdits({...bookingEdits, time: e.target.value})}>
