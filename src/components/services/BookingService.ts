@@ -60,7 +60,6 @@ export class BookingsService{
     tablesTaken = 0;
     totalTables = 15;
     neededTables = 0;
-
     //Räknar ut om det finns bord tillgängliga baserat på användarens val
     countGuests(bookings: Bookings[], guests: number): boolean{
         bookings.forEach((booking) => {
