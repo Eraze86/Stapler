@@ -17,8 +17,10 @@ export const Button = styled.button`
   }
 `
 export const ButtonAdmin = styled(Button)`
-  padding: 0.7rem 0.4rem;
+  padding: 0.4rem 0.6rem;
   font-size: 0.9rem;
+  box-sizing:border-box;
+  margin:0;
 `
 
 export const ButtonClose = styled.button`

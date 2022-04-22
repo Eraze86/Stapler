@@ -61,7 +61,7 @@ export const H3 = styled.h3`
 
   @media (max-width: 768px) {
     font-size: 1.2rem;
-    margin: 0.3rem;
+      margin: 0.3rem;
   }
 `
 
@@ -73,4 +73,8 @@ export const H3Bold = styled(H3)`
 export const H4 = styled.h4`
   font-size: 1rem;
   margin: 0.8rem 0 0.2rem;
+  @media (max-width: 768px){
+    font-size: 0.95rem;
+    margin-top: 0.1rem;
+  }
 `

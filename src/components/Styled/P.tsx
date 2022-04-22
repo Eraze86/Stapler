@@ -6,6 +6,10 @@ export const P = styled.p`
   font-size: 1rem;
   margin: 0.5;
 
+  @media (max-width: 768px){
+    font-size: 0.9rem;
+    margin: 0 0 1rem;
+  }
 `
 export const PCenter = styled(P)`
   text-algin: center;
