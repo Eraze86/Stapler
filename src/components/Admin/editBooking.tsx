@@ -27,6 +27,8 @@ export const EditBooking = (props: IBookingProps) => {
   useEffect(() => {
     let dinner = bookingService.checkTables(props.earlyBookings, props.lateBookings, bookingEdits.date, bookingEdits.numberOfGuests)
     setDinnerTime({...dinnerTime, early: dinner.early, late: dinner.late})
+    console.log(props.earlyBookings, props.lateBookings);
+
   },[bookingEdits])
 
   //Hämtar värden på input som användaren väljer

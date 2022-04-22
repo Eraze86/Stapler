@@ -78,26 +78,26 @@ export class BookingsService{
 
         if(bookings.length === 0){
             return true
-        }
-
-        if(tablesLeft <= 0){
-            return false
         } else {
-            //Bokar endast ett bord
-            if(guests <= 6){
-                this.neededTables += 1;
-            //Bokar 1 bord per 6 personer
-            } else if(guests > 6) {
-                let table = Math.ceil(guests / 6);
-                this.neededTables = table;
+            if(tablesLeft === 0){
+                return false
+            } else {
+                //Bokar endast ett bord
+                if(guests <= 6){
+                    this.neededTables += 1;
+                //Bokar 1 bord per 6 personer
+                } else if(guests > 6) {
+                    let table = Math.ceil(guests / 6);
+                    this.neededTables = table;
 
-                if(this.neededTables <= tablesLeft){
-                    return true
-                }else {
-                    return false
+                    if(this.neededTables <= tablesLeft){
+                        return true
+                    }else {
+                        return false
+                    }
                 }
+            return true
             }
-        return true
         }
     }
 
