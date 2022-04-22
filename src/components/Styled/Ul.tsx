@@ -15,6 +15,8 @@ export const UlAdmin = styled(Ul)`
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     row-gap: 1rem;
+    padding: 0rem;
+
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
