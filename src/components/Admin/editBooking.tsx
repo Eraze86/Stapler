@@ -20,9 +20,14 @@ export const EditBooking = (props: IBookingProps) => {
   const [bookingEdits, setBookingEdits] = useState<BookingChanges>(standardProps);
 
   const [dinnerTime, setDinnerTime] = useState<IDinnerTime>({
-    early: false,
-    late: false,
+    early: props.dinnerTime.early,
+    late: props.dinnerTime.late
   });
+
+  useEffect(() => {
+    let dinner = bookingService.checkTables(props.earlyBookings, props.lateBookings, bookingEdits.date, bookingEdits.numberOfGuests)
+    setDinnerTime({...dinnerTime, early: dinner.early, late: dinner.late})
+  },[bookingEdits])
 
   //Hämtar värden på input som användaren väljer
   function handleCustomerChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>){
@@ -35,13 +40,6 @@ export const EditBooking = (props: IBookingProps) => {
       setBookingEdits({...bookingEdits, numberOfGuests: numberSelected})
     }
   }
-
-  useEffect(() => {
-    let earlyDinner = bookingService.dinnerEarly(props.bookings, bookingEdits.date, bookingEdits.numberOfGuests);
-    let lateDinner = bookingService.dinnerLate(props.bookings, bookingEdits.date, bookingEdits.numberOfGuests);
-    setDinnerTime({...dinnerTime, early: earlyDinner, late: lateDinner})
-
-  }, [bookingEdits, bookingEdits.numberOfGuests])
 
   //Uppdaterar bokningen med funktionen updateBooking i tjänsten bookingService
   function saveEdits(e: MouseEvent<HTMLButtonElement>){

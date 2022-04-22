@@ -6,5 +6,6 @@ export interface IBookingProps{
   booking: IBooking,
   customer: ICustomer,
   dinnerTime: IDinnerTime,
-  bookings: Bookings[]
+  lateBookings: Bookings[],
+  earlyBookings: Bookings[]
 }
