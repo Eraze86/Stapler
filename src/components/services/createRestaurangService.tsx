@@ -2,7 +2,9 @@ import axios from "axios";
 import { useEffect } from "react";
 
 export function CreateRestaurangService(){
+
     const restaurantId = "624e9b46796a187bc28ceaef"
+    //hämta rastaurang Id
     useEffect(()=>{
         axios.post("https://school-restaurant-api.azurewebsites.net/restaurant/create", {
         name: "Stapler",
