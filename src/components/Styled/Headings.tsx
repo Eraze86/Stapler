@@ -1,7 +1,7 @@
 import styled, { keyframes } from "styled-components";
 
 const fadeIn = keyframes`
-  
+
     from { opacity: 0;
       animation-delay: 1s;}
     to { opacity: 1;
@@ -59,6 +59,7 @@ export const H3 = styled.h3`
   font-size: 1.5rem;
   font-weight: 300;
   margin: 2.5rem 0 0;
+
   @media (max-width: 768px) {
     font-size: 1.2rem;
     margin: 0.3rem;

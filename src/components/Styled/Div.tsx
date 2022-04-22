@@ -45,15 +45,17 @@ export const DivBooking = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     padding: 0rem 1rem;
-  
+
   }
 `
 
 export const DivBlur = styled.div`
-  position: absolute;
+  position: fixed;
   backdrop-filter: blur(20px);
   background-color: #1f2d328f;
-  top: 1.6rem;
+  top: 0;
+  display:flex;
+  justify-content: center;
   width: 100vw;
   height: 100%;
   z-index:999;

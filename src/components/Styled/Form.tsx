@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Form = styled.form`
-  padding: 2rem 8rem;
+  padding: 2rem 6rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -27,6 +27,16 @@ export const Form = styled.form`
   }
 `
 
+export const FormAdmin = styled(Form)`
+  width:100%;
+  padding: 0 4rem 1.5rem;
+  row-gap: 0.4rem;
+
+  label{
+    font-size:1.1rem;
+  }
+`
+
 export const Input = styled.input`
   font-family: 'Raleway', sans-serif;
   font-size: 1.2rem;
@@ -44,6 +54,7 @@ export const InputBtn = styled.input`
   cursor:pointer;
   font-family: 'Raleway', sans-serif;
   font-size: 1.4rem;
+  font-weight: 400;
   padding: 0.3rem 0.5rem;
   background-color: #fef5e6;
   border: 1.5px solid #1f2d31;
@@ -55,11 +66,22 @@ export const InputBtn = styled.input`
     background-color: #1f2d31;
     color: #fef5e6;
   }
+
+  &:disabled{
+    border-color: #939899;
+    color: #939899;
+    cursor: not-allowed;
+
+    &:hover{
+      background-color: #fef5e6;
+      color: #939899;
+    }
+  }
 `
 
 export const Select = styled.select`
   font-family: 'Raleway', sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   padding: 0.3rem 0.5rem;
   background-color: #fef5e6;
   border: 1.5px solid #1f2d31;

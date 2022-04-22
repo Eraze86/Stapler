@@ -1,18 +1,27 @@
-import { ChangeEvent, MouseEvent, useState } from "react"
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react"
 import { BookingChanges } from "../../modules/ChangeBooking"
 import { IBookingProps } from "../../modules/IBookingsProps"
+import { IDinnerTime } from "../../modules/IDinnerTime"
+import { DinnerTime } from "../DinnerTime/DinnerTime"
 import { GuestSelect } from "../GuestSelect/GuestSelect"
 import { BookingsService } from "../services/BookingService"
 import { Button } from "../Styled/Button"
-import { Form, Input, Select } from "../Styled/Form"
+import { FormAdmin, Input, Select } from "../Styled/Form"
 
 export const EditBooking = (props: IBookingProps) => {
   let bookingService = new BookingsService();
 
-  const [bookingEdits, setBookingEdits] = useState<BookingChanges>({
-    date: props.booking.date,
-    time: props.booking.time,
-    numberOfGuests: props.booking.numberOfGuests,
+  const standardProps = new BookingChanges(
+    props.booking.date,
+    props.booking.time,
+    props.booking.numberOfGuests,
+  )
+
+  const [bookingEdits, setBookingEdits] = useState<BookingChanges>(standardProps);
+
+  const [dinnerTime, setDinnerTime] = useState<IDinnerTime>({
+    early: false,
+    late: false,
   });
 
   function handleCustomerChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>){
@@ -26,6 +35,14 @@ export const EditBooking = (props: IBookingProps) => {
     }
   }
 
+  useEffect(() => {
+    let earlyDinner = bookingService.dinnerEarly(props.bookings, bookingEdits.date, bookingEdits.numberOfGuests);
+    let lateDinner = bookingService.dinnerLate(props.bookings, bookingEdits.date, bookingEdits.numberOfGuests);
+    setDinnerTime({...dinnerTime, early: earlyDinner, late: lateDinner})
+
+  }, [bookingEdits, bookingEdits.numberOfGuests])
+
+
   function saveEdits(e: MouseEvent<HTMLButtonElement>){
     bookingService.updateBooking(props.booking._id, bookingEdits, props.booking.customerId);
   }
@@ -33,19 +50,19 @@ export const EditBooking = (props: IBookingProps) => {
   return(<>
       <p>{props.customer.name} {props.customer.lastname}</p>
       <p>{props.customer.email} <br/> {props.customer.phone}</p>
-      <Form>
+      <FormAdmin>
         <label>Datum</label>
         <Input type="date" name="date" defaultValue={props.booking.date} onChange={handleCustomerChange}></Input>
-        <label>Tid</label>
-        <Select name="time" defaultValue={props.booking.time} onChange={handleCustomerChange}>
-          <option>18:00</option>
-          <option>21:00</option>
-        </Select>
         <label>Storlek på sällskap</label>
         <Select name="numberOfGuests" onChange={handleCustomerChange} value={bookingEdits.numberOfGuests}><GuestSelect/></Select>
 
+        <label>Tid</label>
+        <div onClick={(e: any) => setBookingEdits({...bookingEdits, time: e.target.value})}>
+          <DinnerTime early={dinnerTime.early} late={dinnerTime.late}/>
+        </div>
+
         <Button onClick={saveEdits}>Spara</Button>
-      </Form>
+      </FormAdmin>
     </>
   )
 }

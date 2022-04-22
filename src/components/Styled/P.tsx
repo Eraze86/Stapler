@@ -16,3 +16,11 @@ export const PCenter = styled(P)`
     margin: 0 0 1rem;
   }
 `
+export const PId = styled.p`
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  background-color:#1F2D32;
+  color: white;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+`

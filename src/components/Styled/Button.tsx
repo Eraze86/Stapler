@@ -16,6 +16,10 @@ export const Button = styled.button`
     background-color: #31454d;
   }
 `
+export const ButtonAdmin = styled(Button)`
+  padding: 0.7rem 0.4rem;
+  font-size: 0.9rem;
+`
 
 export const ButtonClose = styled.button`
   color: #1F2D32;
