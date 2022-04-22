@@ -6,8 +6,8 @@ import { BookingsService } from "../services/BookingService";
 import { CustomerService } from "../services/CustomerService";
 import { ButtonAdmin, ButtonClose } from "../Styled/Button";
 import { DivAdmin, DivBlur, DivBlurParent } from "../Styled/Div";
-import { H1Booking, H3 } from "../Styled/Headings";
-import { P, PId } from "../Styled/P";
+import { H1Booking } from "../Styled/Headings";
+import { P } from "../Styled/P";
 import { SectionAdmin, SectionEditBooking } from "../Styled/Section";
 import { Li, Ul, UlAdmin, UlAdminHeadings } from "../Styled/Ul";
 import { EditBooking } from "./editBooking";
@@ -35,14 +35,13 @@ export function Admin(){
     }
 
     const [bookings, setBookings ] = useState<Bookings[]>([]);
+    const [lateBookings, setLateBookings] = useState<Bookings[]>([]);
+    const [earlyBookings, setEarlyBookings] = useState<Bookings[]>([]);
     const [customers, setCustomers] = useState<ICustomer[]>([]);
     const [bookingToChange, setBookingToChange] = useState<IBooking>(standardBToChange);
     const [customerToChange, setCustomerToChange] = useState<ICustomer>(standardCToChange);
     const [editorOpen, setEditorOpen] = useState<boolean>(false)
-    const [ dinnerTime, setDinnerTime ] = useState<IDinnerTime>({
-        early: false,
-        late: false,
-    });
+    const [dinnerTime, setDinnerTime] = useState<IDinnerTime>(Object)
 
     //Hämtar bokningar med restaurangId från skapad restaurang
     useEffect(() => {
@@ -54,6 +53,13 @@ export function Admin(){
         })
         .catch(error => {console.log("ERROR:", error)})
     },[])
+
+    useEffect(() => {
+        let earlyArray = bookings.filter(booking => { return booking.time === "18:00" })
+        let lateArray = bookings.filter(booking => { return booking.time === "21:00" })
+        setEarlyBookings(earlyArray)
+        setLateBookings(lateArray)
+      },[bookings])
 
     //Hämtar kunder baserat på restaurangens ordrars customerIds
     useEffect(() => {
@@ -67,14 +73,12 @@ export function Admin(){
         })
     }, [bookings])
 
-
     //Funktion som körs när man klickar på ändra en order.
     function editButtonClick(clickedBooking: Bookings){
         setEditorOpen(true)
         setBookingToChange(clickedBooking)
-        let earlyDinner = bookingService.dinnerEarly(bookings, bookingToChange.date, bookingToChange.numberOfGuests);
-        let lateDinner = bookingService.dinnerLate(bookings, bookingToChange.date, bookingToChange.numberOfGuests);
-        setDinnerTime({...dinnerTime, early: earlyDinner, late: lateDinner})
+        let dinner = bookingService.checkTables(earlyBookings, lateBookings, bookingToChange.date, bookingToChange.numberOfGuests);
+        setDinnerTime({...dinnerTime, early: dinner.early, late: dinner.late})
     }
 
     //Sparar kund som är kopplad till order som ska ändras
@@ -142,7 +146,7 @@ export function Admin(){
         <DivBlur>
             <SectionEditBooking>
                 <ButtonClose onClick={closeEditSection}>X</ButtonClose>
-                <EditBooking booking={bookingToChange} customer={customerToChange} dinnerTime={dinnerTime} bookings={bookings} />
+                <EditBooking booking={bookingToChange} customer={customerToChange} lateBookings={lateBookings}earlyBookings={earlyBookings} dinnerTime={dinnerTime} />
             </SectionEditBooking>
         </DivBlur>  }
     </DivBlurParent>)

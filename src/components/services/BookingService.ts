@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Bookings} from "../../modules/Bookings";
 import { BookingChanges} from "../../modules/ChangeBooking";
+import { IDinnerTime } from "../../modules/IDinnerTime";
 import { INewBooking } from "../../modules/INewBooking";
 
 const apiUrl = "https://school-restaurant-api.azurewebsites.net";
@@ -56,74 +57,56 @@ export class BookingsService{
         .catch(error => {console.log(error) });
     }
 
-    earlyDinner: Bookings[] = [];
-    lateDinner: Bookings[] = [];
-    totalGuests = 0;
-    chairsLeft = 0;
+    tablesTaken = 0;
+    totalTables = 15;
+    neededTables = 0;
 
-    dinnerEarly(bookings: Bookings[], newDate: string, newNumber: number): boolean{
-        if(bookings.length !== 0){
-            //Går igenom alla bokningar för restaurangen
-            for (let i = 0; i < bookings.length; i++) {
-                //Kollar om användarens datum matchar med någon/några av restaurangens bokningar
-                if(newDate === bookings[i].date){
-                    console.log(newDate);
-                    //Kollar hur många av dessa datum som har tiden 18:00
-                    if(bookings[i].time === "18:00"){
-                        //Lägger in dessa bokningar i en ny array
-                        this.earlyDinner.push(bookings[i]);
-                        //Adderar numberOfGuests för bokningarna till totalGuests
-                        this.totalGuests += bookings[i].numberOfGuests;
-                        //Finns totalt 90 platser (15 x 6), kollar hur många platser som finns kvar
-                        this.chairsLeft = 90 - this.totalGuests;
-
-                        //Om det finns platser kvar
-                        if(this.earlyDinner.length < 15 && (newNumber <= this.chairsLeft)) {
-                            return true
-                        } else {
-                            console.log("finns ej");
-                            return false
-                        }
-                    } else {
-                        return true
-                    }
-                } else {
-                    return true;
-                }
+    //Räknar ut om det finns bord tillgängliga baserat på användarens val
+    countGuests(bookings: Bookings[], guests: number): boolean{
+        bookings.forEach((booking) => {
+            if(booking.numberOfGuests <= 6){
+                this.tablesTaken += 1;
             }
+            //Räknar ut hur många bord en bokning håller
+            if(booking.numberOfGuests > 6){
+                let table = Math.floor(booking.numberOfGuests / 6)
+                this.tablesTaken += table
+            }
+        })
+        let tablesLeft = this.totalTables - this.tablesTaken;
+
+        if(tablesLeft <= 0){
+            return false
         } else {
-            return true;
-        }
+            //Bokar endast ett bord
+            if(guests <= 6){
+                this.neededTables += 1;
+            //Bokar 1 bord per 6 personer
+            } else if(guests > 6) {
+                let table = Math.floor(guests / 6)
+                this.neededTables = table;
+                if(this.neededTables < tablesLeft){
+                    return false
+                }
+                return true
+            }
         return true
+        }
     }
 
-    //Samma som dinnerEarly fast kl 21:00
-    dinnerLate(bookings: Bookings[], newDate: string, newNumber: number):boolean{
-        if(bookings.length !== 0){
-            for (let i = 0; i < bookings.length; i++) {
-                if(newDate === bookings[i].date){
-                    console.log(newDate);
-                    if(bookings[i].time === "21:00"){
-                        this.lateDinner.push(bookings[i]);
-                        this.totalGuests += bookings[i].numberOfGuests;
-                        this.chairsLeft = 90 - this.totalGuests;
+    dinnerTime: IDinnerTime = {
+        early: false,
+        late: false
+    }
 
-                        if(this.lateDinner.length < 15 && (newNumber <= this.chairsLeft)) {
-                            return true
-                        } else {
-                            console.log("finns ej");
-                            return false
-                        }
-                    } else {
-                    return true
-                    }
-                } else {
-                    return true
-                }
-            }
-        } else {
-            return true
-        }
-        return true
+    //Funktion som returnerar om det finns bord tillgängliga på någon av tiderna
+    checkTables(lateBookings: Bookings[], earlyBookings: Bookings[], date: string, guests: number): IDinnerTime{
+        let earlyOnDate = earlyBookings.filter(b => { return b.date === date })
+        let lateOnDate = lateBookings.filter(b => { return b.date === date })
+
+        this.dinnerTime.early = this.countGuests(earlyOnDate, guests);
+        this.dinnerTime.late = this.countGuests(lateOnDate, guests);
+
+        return this.dinnerTime
     }
 }

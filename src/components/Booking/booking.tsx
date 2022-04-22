@@ -33,6 +33,8 @@ export function Booking() {
   });
 
   const [bookings, setBookings] = useState<Bookings[]>([]);
+  const [lateBookings, setLateBookings] = useState<Bookings[]>([]);
+  const [earlyBookings, setEarlyBookings] = useState<Bookings[]>([]);
   const [searchTimeClicked, setSearchTimeClicked] = useState(false);
   const [bookingSite, setBookingSite] = useState(false);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
@@ -40,7 +42,7 @@ export function Booking() {
   const [error, setError] = useState(false);
   const [formError, setFormError ] = useState(false);
 
-  //hämtar restaurangens bokningar med funktionen getBookings i tjänsten bookingService 
+  //hämtar restaurangens bokningar med funktionen getBookings i tjänsten bookingService
   useEffect(() => {
     bookingService.getBookings().then((bookings) => {
       let data = bookings.map((booking: Bookings) => {
@@ -58,6 +60,13 @@ export function Booking() {
       setBookingSite(true)
     })
   }, []);
+
+  useEffect(() => {
+    let earlyArray = bookings.filter(booking => { return booking.time === "18:00" })
+    let lateArray = bookings.filter(booking => { return booking.time === "21:00" })
+    setEarlyBookings(earlyArray)
+    setLateBookings(lateArray)
+  }, [bookings])
 
   // hämtar kundens valda datum och tid från input och sparar i newBooking
   function handleChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -101,9 +110,11 @@ export function Booking() {
       setSearchBtnClicked(true)
       //Kör funktionerna dinnerEarly och dinnerLate som finns i tjänsten bookingService
       //för att se om det finns platser ledigt
-      let earlyDinner = bookingService.dinnerEarly(bookings, newBooking.date, newBooking.numberOfGuests);
-      let lateDinner = bookingService.dinnerLate(bookings, newBooking.date, newBooking.numberOfGuests)
-      setDinnerTime({...dinnerTime, early: earlyDinner, late: lateDinner})
+      let dinner = bookingService.checkTables(earlyBookings, lateBookings, newBooking.date, newBooking.numberOfGuests)
+
+      //let earlyDinner = bookingService.dinnerEarly(bookings, newBooking.date, newBooking.numberOfGuests);
+      //let lateDinner = bookingService.dinnerLate(bookings, newBooking.date, newBooking.numberOfGuests)
+      setDinnerTime({...dinnerTime, early: dinner.early, late: dinner.late})
     } else {
       setError(true)
     }
@@ -130,7 +141,7 @@ export function Booking() {
     }
   }
 
-  /*Funktion för att göra en bokning, använder funktionen createBooking i 
+  /*Funktion för att göra en bokning, använder funktionen createBooking i
   tjänsten bookingService där man skickar bokningen till API
   och skapar även en kund på samma sätt*/
   function reserve(){
