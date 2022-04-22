@@ -74,7 +74,7 @@ export class BookingsService{
         })
         let tablesLeft = this.totalTables - this.tablesTaken;
 
-        if(bookings.length > 0){
+        if(bookings.length >= 0){
             return true
         }
 
