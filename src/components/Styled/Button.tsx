@@ -9,7 +9,7 @@ export const Button = styled.button`
   font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.2s;
-  width: 50%;
+  min-width: 50%;
   margin: 1.2rem auto 0rem;
 
   &:hover{
