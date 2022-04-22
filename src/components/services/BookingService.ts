@@ -69,7 +69,7 @@ export class BookingsService{
             }
             //Räknar ut hur många bord en bokning håller
             if(booking.numberOfGuests > 6){
-                let table = Math.floor(booking.numberOfGuests / 6)
+                let table = Math.ceil(booking.numberOfGuests / 6)
                 this.tablesTaken += table
             }
         })
@@ -83,20 +83,22 @@ export class BookingsService{
                 this.neededTables += 1;
             //Bokar 1 bord per 6 personer
             } else if(guests > 6) {
-                let table = Math.floor(guests / 6)
+                let table = Math.ceil(guests / 6);
                 this.neededTables = table;
-                if(this.neededTables < tablesLeft){
+
+                if(this.neededTables <= tablesLeft){
+                    return true
+                }else {
                     return false
                 }
-                return true
             }
         return true
         }
     }
 
     dinnerTime: IDinnerTime = {
-        early: false,
-        late: false
+        early: true,
+        late: true
     }
 
     //Funktion som returnerar om det finns bord tillgängliga på någon av tiderna
