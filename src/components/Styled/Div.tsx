@@ -59,6 +59,8 @@ export const DivBlur = styled.div`
   width: 100vw;
   height: 100%;
   z-index:999;
+
+
 `
 export const DivBlurParent = styled.div`
   position: relative;
