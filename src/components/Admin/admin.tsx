@@ -127,6 +127,74 @@ export function Admin(){
         setBookingToChange(standardBToChange)
     }
 
+
+    let earlyDinner: Bookings[] = [];
+    let lateDinner: Bookings[] = [];
+    let totalGuests = 0;
+    let chairsLeft = 0;
+
+    function test(){
+        dinnerEarly();
+        dinnerLate();
+    }
+
+    //Funktion för att se om det finns lediga tider kl 18:00
+    const [ eatEarly, setEatEarly ] = useState(false);
+    function dinnerEarly(){  
+      bookingService.getBookings().then((data) => {
+        //Går igenom alla bokningar för restaurangen
+        for (let i = 0; i < data.length; i++) {
+            console.log("1", i);
+            //Kollar om användarens datum matchar med någon/några av restaurangens bokningar
+            if(bookingToChange.date === data[i].date){
+                //Kollar hur många av dessa datum som har tiden 18:00
+                if(bookingToChange.time === data[i].time){
+                    //Lägger in dessa bokningar i en ny array
+                    earlyDinner.push(data[i]);
+                    totalGuests += data[i].numberOfGuests;
+                    chairsLeft = 90 - totalGuests;
+                    //Om arrayen är mindre än 15 betyder det att det finns minst 1 bord ledigt den tiden
+                    if(earlyDinner.length < 3 && (bookingToChange.numberOfGuests <= chairsLeft)) {
+                        console.log("DET FINNS BORD KL 18");
+                        setEatEarly(true);
+                    } else {
+                        console.log("DET FINNS INTE BORD KL 18");
+                        setEatEarly(false);
+                        return;
+                    }
+                } else {
+                    setEatEarly(true);
+                }
+            }
+        }
+      })
+    }
+
+    //Funktion för att kolla om det finns lediga tider kl 21:00, samma som dinnerEarly() fast 21:00
+    const [ eatLate, setEatLate ] = useState(false);
+    function dinnerLate(){
+      bookingService.getBookings().then((data) => {
+        for (let i = 0; i < data.length; i++) {
+            if(bookingToChange.date === data[i].date){
+                if(bookingToChange.time === data[i].time){
+                    lateDinner.push(data[i]);
+                    totalGuests += data[i].numberOfGuests;
+                    chairsLeft = 90 - totalGuests;
+                    if(lateDinner.length < 3 && (bookingToChange.numberOfGuests <= chairsLeft)) {
+                        console.log("DET FINNS BORD KL 21");
+                        setEatLate(true);
+                    } else {
+                        console.log("DET FINNS INTE BORD KL 21");
+                        setEatLate(false);
+                    }
+                } else {
+                    setEatLate(true);
+                } 
+            }
+        }
+      })
+    }
+
     return (<DivBlurParent>
         <DivAdmin>
         <H1Booking>Bokningar</H1Booking>

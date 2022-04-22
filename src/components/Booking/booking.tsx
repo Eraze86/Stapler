@@ -112,15 +112,95 @@ export function Booking() {
       setSearchBtnClicked(true)
       //Kör funktionerna dinnerEarly och dinnerLate som finns i tjänsten bookingService
       //för att se om det finns platser ledigt
-      let dinner = bookingService.checkTables(earlyBookings, lateBookings, newBooking.date, newBooking.numberOfGuests)
-
+      //let dinner = bookingService.checkTables(earlyBookings, lateBookings, newBooking.date, newBooking.numberOfGuests)
+      dinnerEarly();
+      dinnerLate();
       //let earlyDinner = bookingService.dinnerEarly(bookings, newBooking.date, newBooking.numberOfGuests);
       //let lateDinner = bookingService.dinnerLate(bookings, newBooking.date, newBooking.numberOfGuests)
-      setDinnerTime({...dinnerTime, early: dinner.early, late: dinner.late})
+      //setDinnerTime({...dinnerTime, early: dinner.early, late: dinner.late})
     } else {
       setError(true)
     }
   }
+
+  let earlyDinner: Bookings[] = [];
+    let lateDinner: Bookings[] = [];
+    let totalGuests = 0;
+    let chairsLeft = 0;
+
+    //Funktion för att se om det finns lediga tider kl 18:00
+    const [ eatEarly, setEatEarly ] = useState(false);
+    function dinnerEarly(){  
+      if(bookings.length !== 0){
+        //Går igenom alla bokningar för restaurangen
+        for (let i = 0; i < bookings.length; i++) {
+            console.log("1", i);
+            //Kollar om användarens datum matchar med någon/några av restaurangens bokningar
+            if(newBooking.date === bookings[i].date){
+                //Kollar hur många av dessa datum som har tiden 18:00
+                if(bookings[i].time === "18:00"){
+                    //Lägger in dessa bokningar i en ny array
+                    earlyDinner.push(bookings[i]);
+                    totalGuests += bookings[i].numberOfGuests;
+                    chairsLeft = 90 - totalGuests;
+                    //Om arrayen är mindre än 15 betyder det att det finns minst 1 bord ledigt den tiden
+                    if(earlyDinner.length < 3 && (newBooking.numberOfGuests <= chairsLeft)) {
+                        console.log("DET FINNS BORD KL 18");
+                        setEatEarly(true);
+                    } else {
+                        console.log("DET FINNS INTE BORD KL 18");
+                        setEatEarly(false);
+                        return;
+                    }
+                } else {
+                    setEatEarly(true);
+                }
+            } else if(bookings[i].time === "18:00") {
+                setEatEarly(true);
+                console.log("FINNS 18");
+            } else {
+                setEatEarly(true);
+                console.log("WHAT");
+            }
+        }
+      } else {
+        setEatEarly(true);
+      }
+    }
+
+    //Funktion för att kolla om det finns lediga tider kl 21:00, samma som dinnerEarly() fast 21:00
+    const [ eatLate, setEatLate ] = useState(false);
+    function dinnerLate(){
+      if(bookings.length !== 0){
+        for (let i = 0; i < bookings.length; i++) {
+            if(newBooking.date === bookings[i].date){
+                if(bookings[i].time === "21:00"){
+                    lateDinner.push(bookings[i]);
+                    totalGuests += bookings[i].numberOfGuests;
+                    chairsLeft = 90 - totalGuests;
+                    if(lateDinner.length < 3 && (newBooking.numberOfGuests <= chairsLeft)) {
+                        console.log("DET FINNS BORD KL 21");
+                        setEatLate(true);
+                    } else {
+                        console.log("DET FINNS INTE BORD KL 21");
+                        setEatLate(false);
+                    }
+                } else {
+                    setEatLate(true);
+                } 
+            } else if(bookings[i].time === "21:00") {
+                setEatLate(true);
+                console.log("FINNS 21");
+            } else {
+                console.log("hej booking", bookings[i].date);
+                setEatLate(true);
+                console.log("HALLÅ");
+            }
+        }
+      } else {
+        setEatLate(true);
+      }
+    }
 
   //Funktion om man trycker på avbryt, kommer tillbaka till första bokningssidan
   function cancel(){
@@ -173,12 +253,13 @@ export function Booking() {
           {error && <>Vänligen välj datum och antal personer</>}
 
           {searchBtnClicked && <>
-            {(!dinnerTime.early && !dinnerTime.late) ? <>
+            {(!eatEarly && !eatLate) ? <>
               <p>Tyvärr fullbokat, prova ett annat datum</p>
               <Button onClick={cancel} type="reset">Tillbaka</Button></> :
               <><H3Bold>Vilken tid vill ni äta?</H3Bold>
               <div onClick={handleClick}>
-                <DinnerTime early={dinnerTime.early} late={dinnerTime.late}/>
+                {eatEarly && !searchTimeClicked && <Button name="time" value="18:00" onClick={handleClick}>18:00</Button>}
+                {eatLate && !searchTimeClicked && <Button name="time" value="21:00" onClick={handleClick}>21:00</Button>}
               </div>
               <Button onClick={cancel} type="reset">Avbryt</Button></>}
           </>}
